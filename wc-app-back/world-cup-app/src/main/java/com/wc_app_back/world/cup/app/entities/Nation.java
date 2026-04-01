@@ -39,15 +39,6 @@ public class Nation {
     @Column(nullable = false)
     private String continent;
 
-    @NotNull(message = "Number of participations is required")
-    @Min(value = 0, message = "Number of participations cannot be negative")
-    @Column(name = "number_participation", nullable = false)
-    private Integer numberParticipation = 0;
-
-    @Min(value = 1930, message = "World Cup started in 1930")
-    @Column(name = "last_participation")
-    private Integer lastParticipation;
-
     @OneToMany(mappedBy = "nation", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Participation> participations;
 }
