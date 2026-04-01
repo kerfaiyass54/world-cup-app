@@ -1,9 +1,7 @@
 CREATE TABLE IF NOT EXISTS nation (
                                       id                   BIGSERIAL PRIMARY KEY,
                                       name                 VARCHAR(100) NOT NULL UNIQUE,
-    continent            VARCHAR(50)  NOT NULL,
-    number_participation INTEGER      NOT NULL DEFAULT 0,
-    last_participation   INTEGER
+    continent            VARCHAR(50)  NOT NULL
     );
 
 CREATE TABLE IF NOT EXISTS cup (
