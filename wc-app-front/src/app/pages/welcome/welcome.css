@@ -1,0 +1,220 @@
+.hero {
+
+  min-height: 100vh;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  padding: 60px;
+
+  opacity: 0;
+
+  transform: translateY(60px);
+
+  transition: 1s ease;
+
+}
+
+
+.hero.show {
+
+  opacity: 1;
+
+  transform: translateY(0);
+
+}
+
+
+/* HERO LAYOUT */
+
+.hero-overlay {
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 80px;
+
+  max-width: 1400px;
+
+  width: 100%;
+
+}
+
+
+.reverse {
+
+  flex-direction: row-reverse;
+
+}
+
+
+/* TEXT */
+
+.hero-text {
+
+  max-width: 520px;
+
+}
+
+
+.hero-text h1 {
+
+  font-size: 64px;
+
+  letter-spacing: 4px;
+
+  color: var(--wc-green);
+
+  margin-bottom: 20px;
+
+}
+
+
+.hero-text p {
+
+  font-size: 20px;
+
+  color: rgba(255,255,255,.85);
+
+}
+
+
+/* MAIN IMAGE */
+
+.main-image {
+
+  width: 720px;
+
+  max-width: 90%;
+
+  border-radius: 24px;
+
+  border: 3px solid var(--wc-green);
+
+  box-shadow:
+
+    0px 30px 100px rgba(0,0,0,.7);
+
+  transition: .4s;
+
+}
+
+
+.main-image:hover {
+
+  transform: scale(1.04);
+
+}
+
+
+/* FEATURE GRID */
+
+.feature-grid {
+
+  display: flex;
+
+  gap: 60px;
+
+  justify-content: center;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+}
+
+
+.feature-card {
+
+  width: 340px;
+
+  text-align: center;
+
+}
+
+
+.feature-card img {
+
+  width: 100%;
+
+  border-radius: 20px;
+
+  border: 3px solid var(--wc-green);
+
+  margin-bottom: 18px;
+
+  box-shadow:
+
+    0px 20px 60px rgba(0,0,0,.6);
+
+  transition: .35s ease;
+
+}
+
+
+.feature-card img:hover {
+
+  transform: translateY(-10px) scale(1.05);
+
+}
+
+
+.feature-card h2 {
+
+  font-size: 30px;
+
+  color: var(--wc-green);
+
+  margin-bottom: 10px;
+
+}
+
+
+.feature-card p {
+
+  font-size: 17px;
+
+  color: rgba(255,255,255,.8);
+
+}
+
+
+/* SECTION BACKGROUNDS */
+
+.hero-1 {
+
+  background: linear-gradient(
+    120deg,
+    rgba(0,0,0,.5),
+    rgba(0,40,60,.7)
+  );
+
+}
+
+
+.hero-2 {
+
+  background: linear-gradient(
+    120deg,
+    rgba(0,30,40,.6),
+    rgba(0,0,0,.6)
+  );
+
+}
+
+
+.hero-3 {
+
+  background: linear-gradient(
+    120deg,
+    rgba(0,0,0,.7),
+    rgba(0,50,70,.7)
+  );
+
+}

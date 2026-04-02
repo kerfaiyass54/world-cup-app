@@ -14,6 +14,4 @@ CREATE TABLE IF NOT EXISTS cup (
 CREATE TABLE IF NOT EXISTS participation (
                                              id        BIGSERIAL PRIMARY KEY,
                                              id_nation BIGINT NOT NULL REFERENCES nation(id),
-    id_cup    BIGINT NOT NULL REFERENCES cup(id),
-    CONSTRAINT uq_nation_cup UNIQUE (id_nation, id_cup)
-    );
+    id_cup    BIGINT NOT NULL REFERENCES cup(id)    );

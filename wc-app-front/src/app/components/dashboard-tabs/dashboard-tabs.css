@@ -1,0 +1,67 @@
+.tabs-row {
+
+  display: flex;
+
+  justify-content: center;
+
+  gap: 30px;
+
+  padding: 20px;
+
+  margin-top: 20px;
+
+}
+
+.tabs-row a {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 12px 24px;
+
+  border-radius: 30px;
+
+  text-decoration: none;
+
+  font-weight: 600;
+
+  color: white;
+
+  background:
+
+    rgba(255,255,255,.05);
+
+  transition: .3s;
+
+}
+
+.tabs-row a:hover {
+
+  transform: translateY(-4px);
+
+  background:
+
+    linear-gradient(
+      45deg,
+      var(--wc-green),
+      var(--wc-cyan)
+    );
+
+  color: black;
+
+}
+
+.tabs-row .active {
+
+  background:
+
+    linear-gradient(
+      45deg,
+      var(--wc-purple),
+      var(--wc-pink)
+    );
+
+}

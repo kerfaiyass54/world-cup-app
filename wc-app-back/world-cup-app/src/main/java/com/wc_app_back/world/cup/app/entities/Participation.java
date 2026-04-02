@@ -18,8 +18,7 @@ import lombok.ToString;
 
 @Entity
 @Table(
-        name = "participation",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"id_nation", "id_cup"})
+        name = "participation"
 )
 @Getter
 @Setter
