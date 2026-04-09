@@ -1,65 +1,49 @@
-/* ===== GLOBAL WORLD CUP APP BACKGROUND SYSTEM ===== */
+html {
+  height: 100%;
+  @include mat.theme((
+  color: (
+  primary: mat.$magenta-palette,
+  tertiary: mat.$violet-palette,
+  ),
+  typography: Roboto,
+  density: 0,
+  ));
+}
+
+.alert {
+  color: #cd4dff;
+  font-size: 14px;
+  margin-top: 6px;
+  text-align: left;
+}
+
+
+body {
+  color-scheme: dark;
+
+  /* Gradient background layer */
+  background:
+    radial-gradient(circle at 20% 20%, #3a0ca3 0%, transparent 40%),
+    radial-gradient(circle at 80% 30%, #7209b7 0%, transparent 40%),
+    radial-gradient(circle at 50% 80%, #560bad 0%, transparent 40%),
+    linear-gradient(135deg, #0f0c29, #1a0933, #000000);
+
+  background-attachment: fixed;
+  background-size: cover;
+
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  margin: 0;
+  height: 100%;
+}
 
 html, body {
   height: 100%;
   margin: 0;
-  font-family: Inter, system-ui, sans-serif;
-  background: black;
-  overflow-x: hidden;
-}
-
-/* animated gradient base layer */
-
-body::before {
-
-  content: "";
-
-  position: fixed;
-  inset: 0;
-
-  z-index: -2;
-
-  background:
-    radial-gradient(circle at 15% 25%, #00f2ff22 0%, transparent 40%),
-    radial-gradient(circle at 85% 75%, #0066ff22 0%, transparent 40%),
-    linear-gradient(135deg, #0a0f1f, #101a3a, #071024);
-
-  background-size: 400% 400%;
-
-  animation: wcGradientFlow 22s ease infinite;
-
 }
 
 
-/* glowing atmospheric layer */
-
-body::after {
-
-  content: "";
-
-  position: fixed;
-  inset: 0;
-
-  z-index: -1;
-
-  backdrop-filter: blur(120px);
-
-  background:
-
-    radial-gradient(circle at 30% 40%, #00c3ff11, transparent 60%),
-    radial-gradient(circle at 70% 60%, #0072ff11, transparent 60%);
-
-}
-
-
-/* animation engine */
-
-@keyframes wcGradientFlow {
-
-  0% { background-position: 0% 50%; }
-
-  50% { background-position: 100% 50%; }
-
-  100% { background-position: 0% 50%; }
-
+* {
+  font-family: "Inter", sans-serif;
 }

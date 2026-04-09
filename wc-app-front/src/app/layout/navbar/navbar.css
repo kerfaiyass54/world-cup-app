@@ -1,0 +1,126 @@
+.wc-navbar {
+
+  position: sticky;
+  top: 0;
+
+  height: 72px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 0 60px;
+
+  backdrop-filter: blur(24px);
+
+  background: rgba(255,255,255,.04);
+
+  border-bottom: 1px solid rgba(255,255,255,.08);
+
+  z-index: 50;
+
+}
+
+
+/* logo glow */
+
+.wc-logo {
+
+  font-size: 20px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+
+  color: white;
+
+  text-shadow:
+
+    0 0 10px rgba(34,211,238,.6);
+
+}
+
+
+/* nav container */
+
+.wc-links {
+
+  display: flex;
+  gap: 40px;
+
+}
+
+
+/* nav items */
+
+.wc-links a {
+
+  position: relative;
+
+  text-decoration: none;
+
+  font-weight: 500;
+
+  color: white;
+
+  opacity: .6;
+
+  transition: .35s ease;
+
+}
+
+
+/* hover motion */
+
+.wc-links a:hover {
+
+  opacity: 1;
+
+  transform: translateY(-2px);
+
+}
+
+
+/* animated underline */
+
+.wc-links a::after {
+
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  bottom: -8px;
+
+  height: 2px;
+  width: 0%;
+
+  background: linear-gradient(
+    90deg,
+    #22d3ee,
+    #6366f1
+  );
+
+  transition: .35s ease;
+
+}
+
+.wc-links a:hover::after {
+
+  width: 100%;
+
+}
+
+
+/* active link indicator */
+
+.active {
+
+  opacity: 1 !important;
+
+}
+
+.active::after {
+
+  width: 100% !important;
+
+}
