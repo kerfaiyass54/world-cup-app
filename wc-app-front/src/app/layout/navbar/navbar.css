@@ -1,3 +1,5 @@
+/* NAVBAR BASE */
+
 .wc-navbar {
 
   position: sticky;
@@ -16,43 +18,122 @@
   backdrop-filter: blur(20px);
 
   background: linear-gradient(
-    90deg,
+    270deg,
     #4c1d95,
-    #6d28d9
+    #6d28d9,
+    #4338ca
   );
+
+  background-size: 400% 400%;
+
+  animation: navbarGradient 12s ease infinite;
+
+  box-shadow:
+    0 10px 40px rgba(0,0,0,.35);
 
 }
 
 
-/* logo glow */
+/* animated gradient movement */
+
+@keyframes navbarGradient {
+
+  0% { background-position: 0% 50%; }
+
+  50% { background-position: 100% 50%; }
+
+  100% { background-position: 0% 50%; }
+
+}
+
+
+
+/* LOGO STYLE */
 
 .wc-logo {
 
-  font-size: 20px;
-  font-weight: 700;
+  font-size: 22px;
 
-  letter-spacing: 1px;
+  font-weight: 800;
+
+  letter-spacing: 1.2px;
 
   color: white;
 
+  cursor: pointer;
+
+  transition: .35s ease;
+
   text-shadow:
 
-    0 0 10px rgba(34,211,238,.6);
+    0 0 10px rgba(34,211,238,.7),
+    0 0 20px rgba(99,102,241,.4);
 
 }
 
 
-/* nav container */
+/* logo hover animation */
+
+.wc-logo:hover {
+
+  transform: translateY(-3px) scale(1.05);
+
+  text-shadow:
+
+    0 0 12px rgba(34,211,238,.9),
+    0 0 28px rgba(99,102,241,.7);
+
+}
+
+
+/* logo glow pulse animation */
+
+.wc-logo {
+
+  animation: logoPulse 3s ease-in-out infinite;
+
+}
+
+@keyframes logoPulse {
+
+  0% {
+
+    text-shadow:
+      0 0 6px rgba(34,211,238,.4);
+
+  }
+
+  50% {
+
+    text-shadow:
+      0 0 18px rgba(34,211,238,.8);
+
+  }
+
+  100% {
+
+    text-shadow:
+      0 0 6px rgba(34,211,238,.4);
+
+  }
+
+}
+
+
+
+/* NAV LINKS CONTAINER */
 
 .wc-links {
 
   display: flex;
-  gap: 40px;
+
+  gap: 44px;
 
 }
 
 
-/* nav items */
+
+/* NAV LINKS */
 
 .wc-links a {
 
@@ -60,29 +141,33 @@
 
   text-decoration: none;
 
-  font-weight: 500;
+  font-weight: 600;
+
+  letter-spacing: .4px;
 
   color: white;
 
-  opacity: .6;
+  opacity: .65;
 
-  transition: .35s ease;
+  transition: .4s ease;
 
 }
 
 
-/* hover motion */
+
+/* hover animation */
 
 .wc-links a:hover {
 
   opacity: 1;
 
-  transform: translateY(-2px);
+  transform: translateY(-3px);
 
 }
 
 
-/* animated underline */
+
+/* underline animation */
 
 .wc-links a::after {
 
@@ -90,11 +175,14 @@
 
   position: absolute;
 
-  left: 0;
+  left: 50%;
   bottom: -8px;
 
   height: 2px;
+
   width: 0%;
+
+  transform: translateX(-50%);
 
   background: linear-gradient(
     90deg,
@@ -102,9 +190,13 @@
     #6366f1
   );
 
-  transition: .35s ease;
+  transition: .4s ease;
 
 }
+
+
+
+/* underline expands from center */
 
 .wc-links a:hover::after {
 
@@ -113,16 +205,37 @@
 }
 
 
-/* active link indicator */
+
+/* ACTIVE LINK */
 
 .active {
 
   opacity: 1 !important;
 
+  text-shadow:
+    0 0 6px rgba(34,211,238,.7);
+
 }
+
+
+
+/* active underline */
 
 .active::after {
 
   width: 100% !important;
+
+}
+
+
+
+/* subtle floating hover effect */
+
+.wc-navbar:hover {
+
+  box-shadow:
+
+    0 12px 50px rgba(0,0,0,.45),
+    0 0 20px rgba(99,102,241,.25);
 
 }
