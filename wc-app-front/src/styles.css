@@ -1,414 +1,65 @@
-/* =========================
-   GOOGLE FONT (FIFA STYLE)
-========================= */
+/* ===== GLOBAL WORLD CUP APP BACKGROUND SYSTEM ===== */
 
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&display=swap');
-
-
-/* =========================
-   FIFA COLOR SYSTEM
-========================= */
-
-:root {
-
-  --wc-green: #00f2a9;
-  --wc-yellow: #f7ff00;
-  --wc-pink: #ff4ecb;
-  --wc-purple: #7a5cff;
-  --wc-blue: #1f3cff;
-  --wc-dark: #020617;
-  --wc-cyan: #2fd3ff;
-
-  --glass-bg: rgba(255,255,255,.05);
-  --glass-border: rgba(255,255,255,.15);
-
-}
-
-
-/* =========================
-   GLOBAL RESET
-========================= */
-
-* {
-
+html, body {
+  height: 100%;
   margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-
-}
-
-
-/* =========================
-   BODY BACKGROUND
-   STADIUM LIGHT ANIMATION
-========================= */
-
-body {
-
-  font-family: "Orbitron", sans-serif;
-
-  color: white;
-
-  background:
-    linear-gradient(
-      120deg,
-      #020617,
-      #08122e,
-      #001a3a,
-      #020617
-    );
-
-  background-size: 400% 400%;
-
-  animation: stadiumMove 18s ease infinite;
-
-  min-height: 100vh;
-
+  font-family: Inter, system-ui, sans-serif;
+  background: black;
   overflow-x: hidden;
-
-  transition: background .4s ease;
-
 }
 
-
-/* moving gradient */
-
-@keyframes stadiumMove {
-
-  0% {
-
-    background-position: 0% 50%;
-
-  }
-
-  50% {
-
-    background-position: 100% 50%;
-
-  }
-
-  100% {
-
-    background-position: 0% 50%;
-
-  }
-
-}
-
-
-/* =========================
-   FOOTBALL PITCH LINES OVERLAY
-========================= */
+/* animated gradient base layer */
 
 body::before {
 
   content: "";
 
   position: fixed;
+  inset: 0;
 
-  top: 0;
-  left: 0;
-
-  width: 200%;
-  height: 200%;
+  z-index: -2;
 
   background:
+    radial-gradient(circle at 15% 25%, #00f2ff22 0%, transparent 40%),
+    radial-gradient(circle at 85% 75%, #0066ff22 0%, transparent 40%),
+    linear-gradient(135deg, #0a0f1f, #101a3a, #071024);
 
-    repeating-radial-gradient(
+  background-size: 400% 400%;
 
-      circle,
+  animation: wcGradientFlow 22s ease infinite;
 
-      rgba(255,255,255,.04),
+}
 
-      rgba(255,255,255,.04) 2px,
 
-      transparent 2px,
+/* glowing atmospheric layer */
 
-      transparent 50px
+body::after {
 
-    );
+  content: "";
 
-  animation: pitchLines 35s linear infinite;
+  position: fixed;
+  inset: 0;
 
   z-index: -1;
 
-  opacity: .3;
-
-}
-
-
-/* pitch animation */
-
-@keyframes pitchLines {
-
-  from {
-
-    transform: translate(0,0);
-
-  }
-
-  to {
-
-    transform: translate(-300px,-300px);
-
-  }
-
-}
-
-
-/* =========================
-   GLASS CARD SYSTEM
-========================= */
-
-.glass-card {
-
-  background: var(--glass-bg);
-
-  backdrop-filter: blur(18px);
-
-  border-radius: 18px;
-
-  border: 1px solid var(--glass-border);
-
-  padding: 25px;
-
-  transition: .3s ease;
-
-}
-
-
-.glass-card:hover {
-
-  transform: translateY(-6px);
-
-  border-color: var(--wc-green);
-
-}
-
-
-/* =========================
-   BUTTON SYSTEM
-========================= */
-
-.btn-primary {
-
-  padding: 14px 30px;
-
-  border-radius: 30px;
-
-  border: none;
-
-  font-weight: 600;
+  backdrop-filter: blur(120px);
 
   background:
 
-    linear-gradient(
-      45deg,
-      var(--wc-green),
-      var(--wc-cyan)
-    );
-
-  color: black;
-
-  transition: .3s;
+    radial-gradient(circle at 30% 40%, #00c3ff11, transparent 60%),
+    radial-gradient(circle at 70% 60%, #0072ff11, transparent 60%);
 
 }
 
 
-.btn-primary:hover {
+/* animation engine */
 
-  transform: scale(1.05);
+@keyframes wcGradientFlow {
 
-}
+  0% { background-position: 0% 50%; }
 
+  50% { background-position: 100% 50%; }
 
-/* secondary button */
-
-.btn-secondary {
-
-  padding: 14px 30px;
-
-  border-radius: 30px;
-
-  border: none;
-
-  font-weight: 600;
-
-  background:
-
-    linear-gradient(
-      45deg,
-      var(--wc-purple),
-      var(--wc-pink)
-    );
-
-  color: white;
-
-  transition: .3s;
-
-}
-
-
-.btn-secondary:hover {
-
-  transform: scale(1.05);
-
-}
-
-
-/* =========================
-   PAGE WRAPPER
-========================= */
-
-.page-wrapper {
-
-  padding: 30px 60px;
-
-  animation: fadeIn .7s ease;
-
-}
-
-
-/* fade animation */
-
-@keyframes fadeIn {
-
-  from {
-
-    opacity: 0;
-    transform: translateY(20px);
-
-  }
-
-  to {
-
-    opacity: 1;
-    transform: translateY(0px);
-
-  }
-
-}
-
-
-/* =========================
-   DASHBOARD GRID LAYOUT
-========================= */
-
-.dashboard-grid {
-
-  display: grid;
-
-  grid-template-columns: repeat(2, 1fr);
-
-  gap: 40px;
-
-  margin-top: 40px;
-
-}
-
-
-/* responsive */
-
-@media(max-width:900px) {
-
-  .dashboard-grid {
-
-    grid-template-columns: 1fr;
-
-  }
-
-}
-
-
-/* =========================
-   SCROLLBAR FIFA STYLE
-========================= */
-
-::-webkit-scrollbar {
-
-  width: 8px;
-
-}
-
-::-webkit-scrollbar-track {
-
-  background: transparent;
-
-}
-
-::-webkit-scrollbar-thumb {
-
-  background:
-
-    linear-gradient(
-      var(--wc-green),
-      var(--wc-purple)
-    );
-
-  border-radius: 20px;
-
-}
-
-
-/* =========================
-   DARK MODE SUPPORT
-========================= */
-
-.dark-mode {
-
-  background:
-
-    linear-gradient(
-      120deg,
-      #000000,
-      #020617,
-      #000814
-    );
-
-  color: #ddd;
-
-}
-
-
-/* dark mode glass */
-
-.dark-mode .glass-card {
-
-  background: rgba(0,0,0,.5);
-
-}
-
-
-/* =========================
-   NAVBAR SAFE SPACING
-========================= */
-
-router-outlet + * {
-
-  margin-top: 20px;
-
-}
-
-
-/* =========================
-   LINK STYLE RESET
-========================= */
-
-a {
-
-  text-decoration: none;
-
-  color: inherit;
-
-}
-
-
-/* =========================
-   MATERIAL ICON ALIGNMENT
-========================= */
-
-.material-icons {
-
-  vertical-align: middle;
+  100% { background-position: 0% 50%; }
 
 }
