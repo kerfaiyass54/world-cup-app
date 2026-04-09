@@ -1,0 +1,68 @@
+<section class="dashboard">
+
+  <div class="tabs">
+
+    <button
+      (click)="select('wc')"
+      [class.active]="activeTab() === 'wc'"
+    >
+      WC 2026
+    </button>
+
+
+    <button
+      (click)="select('tournament')"
+      [class.active]="activeTab() === 'tournament'"
+    >
+      Tournaments
+    </button>
+
+
+    <button
+      (click)="select('teams')"
+      [class.active]="activeTab() === 'teams'"
+    >
+      Teams
+    </button>
+
+
+    <button
+      (click)="select('general')"
+      [class.active]="activeTab() === 'general'"
+    >
+      General Infos
+    </button>
+
+  </div>
+
+
+  <div class="panel">
+
+    @if(activeTab()==='wc') {
+
+      <app-wc-infos></app-wc-infos>
+
+    }
+
+
+    @if(activeTab()==='tournament') {
+      <app-tournaments-infos></app-tournaments-infos>
+    }
+
+
+    @if(activeTab()==='teams') {
+
+      <app-teams-infos></app-teams-infos>
+
+    }
+
+
+    @if(activeTab()==='general') {
+
+      <app-general-info></app-general-info>
+
+    }
+
+  </div>
+
+</section>

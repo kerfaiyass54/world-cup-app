@@ -1,0 +1,119 @@
+<section class="wc-container">
+
+  <div class="wc-intro">
+    <h1>FIFA World Cup 2026 Tournament Dashboard</h1>
+
+    <p>
+      Track host nations, qualified teams across continents, and group stage compositions
+      in one centralized interactive overview designed for fans and analysts alike.
+    </p>
+  </div>
+
+  <!-- HOSTS -->
+  <section class="block">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <span class="section-icon">🏟️</span>
+        <h2>Host Nations</h2>
+      </div>
+
+      <p class="section-description">
+        The FIFA World Cup 2026 will be jointly hosted by three nations across North America, bringing matches to iconic stadiums and millions of fans worldwide.
+      </p>
+    </div>
+    <div class="host-grid">
+      @for(host of hosts; track host.name){
+        <div class="host-card">
+          <div class="flag-circle">
+            <span class="fi fi-{{host.code}}"></span>
+          </div>
+          <span class="host-name">{{host.name}}</span>
+          <span class="host-badge">Host Nation</span>
+        </div>
+      }
+    </div>
+  </section>
+
+  <!-- CONTINENTS -->
+  <section class="block">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <span class="section-icon">🌍</span>
+        <h2>Qualified Nations by Continent</h2>
+      </div>
+
+      <p class="section-description">
+        Explore how qualification spots are distributed globally and discover which nations have secured their place in the tournament so far.
+      </p>
+    </div>
+
+    <div class="continent-grid">
+      @for(continent of continents; track continent.name){
+        <div class="continent-card" (click)="openModal(continent.name)">
+          <div class="continent-card-inner">
+            <span class="continent-emoji">{{continent.emoji}}</span>
+            <div class="continent-info">
+              <span class="continent-label">{{continent.name}}</span>
+              <span class="continent-count">{{continent.teams.length}} teams</span>
+            </div>
+          </div>
+          <span class="continent-arrow">›</span>
+        </div>
+      }
+    </div>
+
+    @if(activeModal){
+      <div class="modal-overlay" (click)="closeModal()">
+        <div class="modal-box" (click)="$event.stopPropagation()">
+          <div class="modal-head">
+            <span>{{getContinentEmoji(activeModal)}} {{activeModal}} — Qualified Teams</span>
+            <button class="modal-close" (click)="closeModal()">✕</button>
+          </div>
+          <div class="modal-body">
+            <ul class="team-list">
+              @for(team of getTeams(activeModal); track team){
+                <li class="team-item">
+                  <span class="fi fi-{{flagMap[team]}} flag-sm-icon"></span>
+                  <span>{{team}}</span>
+                </li>
+              }
+            </ul>
+          </div>
+        </div>
+      </div>
+    }
+  </section>
+
+  <!-- GROUPS -->
+  <section class="block">
+    <div class="section-header">
+      <div class="section-title-wrap">
+        <span class="section-icon">📋</span>
+        <h2>Groups Overview</h2>
+      </div>
+
+      <p class="section-description">
+        Each group contains four teams competing for qualification to the knockout stage. Follow your favorites and analyze the toughest matchups.
+      </p>
+    </div>
+    <div class="groups-grid">
+      @for(group of groups; track group.name){
+        <div class="group-card">
+          <div class="group-header">
+            <span class="group-letter">{{group.name}}</span>
+            <span class="group-sub">Group</span>
+          </div>
+          <ul class="group-list">
+            @for(team of group.teams; track team){
+              <li class="group-item">
+                <span class="fi fi-{{flagMap[team]}} flag-xs-icon"></span>
+                <span>{{team}}</span>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+  </section>
+
+</section>
