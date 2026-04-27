@@ -1,219 +1,121 @@
--- =============================
--- WORLD CUP ANALYTICS SCHEMA
--- =============================
-
-
--- =============================
--- Champion Stats
--- =============================
+-- =========================
+-- CHAMPIONS
+-- =========================
 
 CREATE TABLE champion_stats (
-
                                 id SERIAL PRIMARY KEY,
-
                                 country TEXT UNIQUE NOT NULL,
-
                                 wins INTEGER NOT NULL
-
 );
-
-
--- =============================
--- Champion Era Stats
--- =============================
 
 CREATE TABLE champion_era_stats (
-
                                     id SERIAL PRIMARY KEY,
-
                                     era TEXT NOT NULL,
-
                                     country TEXT NOT NULL,
-
                                     wins INTEGER NOT NULL,
-
                                     UNIQUE (era, country)
-
 );
 
-
--- =============================
--- Runner-up Stats
--- =============================
+-- =========================
+-- RUNNER-UPS & THIRD PLACE
+-- =========================
 
 CREATE TABLE runnerup_stats (
-
                                 id SERIAL PRIMARY KEY,
-
                                 country TEXT UNIQUE NOT NULL,
-
                                 runnerup_count INTEGER NOT NULL
-
 );
-
-
--- =============================
--- Runner-up Without Titles
--- =============================
 
 CREATE TABLE runnerup_without_titles (
-
                                          id SERIAL PRIMARY KEY,
-
                                          country TEXT UNIQUE NOT NULL
-
 );
-
-
--- =============================
--- Third Place Stats
--- =============================
 
 CREATE TABLE thirdplace_stats (
-
                                   id SERIAL PRIMARY KEY,
-
                                   country TEXT UNIQUE NOT NULL,
-
                                   thirdplace_count INTEGER NOT NULL
-
 );
 
-
--- =============================
--- Top 3 Stats
--- =============================
+-- =========================
+-- TOP 3
+-- =========================
 
 CREATE TABLE top3_stats (
-
                             id SERIAL PRIMARY KEY,
-
                             country TEXT UNIQUE NOT NULL,
-
                             appearances INTEGER NOT NULL
-
 );
-
-
--- =============================
--- Top 3 Consistency Stats
--- =============================
 
 CREATE TABLE top3_consistency_stats (
-
                                         id SERIAL PRIMARY KEY,
-
                                         country TEXT UNIQUE NOT NULL,
-
                                         consistency_score DOUBLE PRECISION NOT NULL
-
 );
 
-
--- =============================
--- Host Metrics
--- =============================
+-- =========================
+-- HOST ANALYTICS
+-- =========================
 
 CREATE TABLE host_metrics (
-
                               id SERIAL PRIMARY KEY,
-
                               metric TEXT UNIQUE NOT NULL,
-
                               value DOUBLE PRECISION NOT NULL
-
 );
-
-
--- =============================
--- Host Top 3 by Country
--- =============================
 
 CREATE TABLE host_top3_by_country (
-
                                       id SERIAL PRIMARY KEY,
-
                                       country TEXT UNIQUE NOT NULL,
-
                                       top3_count INTEGER NOT NULL
-
 );
 
-
--- =============================
--- Scoring Correlation Stats
--- =============================
+-- =========================
+-- SCORING ANALYTICS
+-- =========================
 
 CREATE TABLE scoring_corr_stats (
-
                                     id SERIAL PRIMARY KEY,
-
                                     metric TEXT UNIQUE NOT NULL,
-
                                     value DOUBLE PRECISION NOT NULL
-
 );
-
-
--- =============================
--- Scoring by Era
--- =============================
 
 CREATE TABLE scoring_by_era (
-
                                 id SERIAL PRIMARY KEY,
-
                                 era TEXT UNIQUE NOT NULL,
-
                                 avg_goals_per_game DOUBLE PRECISION NOT NULL
-
 );
 
-
--- =============================
--- Tournament Structure by Era
--- =============================
+-- =========================
+-- TOURNAMENT STRUCTURE
+-- =========================
 
 CREATE TABLE structure_by_era (
-
                                   id SERIAL PRIMARY KEY,
-
                                   era TEXT UNIQUE NOT NULL,
-
                                   avg_teams DOUBLE PRECISION NOT NULL,
-
                                   avg_matches DOUBLE PRECISION NOT NULL,
-
                                   avg_goals DOUBLE PRECISION NOT NULL
-
 );
-
-
--- =============================
--- Teams Growth Over Time
--- =============================
 
 CREATE TABLE teams_growth (
-
                               id SERIAL PRIMARY KEY,
-
                               year INTEGER UNIQUE NOT NULL,
-
                               teams INTEGER NOT NULL
-
 );
 
-
--- =============================
--- Matches Growth Over Time
--- =============================
-
 CREATE TABLE matches_growth (
-
                                 id SERIAL PRIMARY KEY,
-
                                 year INTEGER UNIQUE NOT NULL,
-
                                 matches INTEGER NOT NULL
+);
 
+CREATE TABLE worldcup_summary_stats (
+                                        id SERIAL PRIMARY KEY,
+
+                                        total_editions INTEGER NOT NULL,
+                                        total_champions INTEGER NOT NULL,
+                                        total_hosts INTEGER NOT NULL,
+
+                                        highest_avg_goals DOUBLE PRECISION NOT NULL,
+                                        highest_avg_goals_year INTEGER NOT NULL
 );
