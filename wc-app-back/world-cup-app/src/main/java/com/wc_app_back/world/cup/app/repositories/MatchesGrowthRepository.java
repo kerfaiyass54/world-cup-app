@@ -4,6 +4,11 @@ import com.wc_app_back.world.cup.app.entities.MatchesGrowth;
 import org.apache.el.stream.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 public interface MatchesGrowthRepository extends JpaRepository<MatchesGrowth, Long> {
     MatchesGrowth findByYear(Integer year);
+
+    List<MatchesGrowth> findAllByOrderByYearAsc();
+
 }
