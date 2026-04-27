@@ -28,8 +28,7 @@ from domains.hosts.host_analysis import (
     host_top3_count,
     host_final_count,
     host_champion_count,
-    host_advantage_ratio,
-    host_top3_by_country
+    host_advantage_ratio
 )
 
 from domains.scoring.scoring_analysis import (
@@ -132,10 +131,6 @@ def produce_analytics():
     )
 
 
-    send(
-        "worldcup.analytics.host_top3_by_country",
-        host_top3_by_country(df).to_dict()
-    )
 
 
     # scoring analytics
