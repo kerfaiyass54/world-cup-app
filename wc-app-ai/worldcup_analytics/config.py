@@ -1,1 +1,1 @@
-DATA_PATH = "./data/FIFA - World Cup Summary.csv"
+DATA_PATH = "../data/FIFA - World Cup Summary.csv"

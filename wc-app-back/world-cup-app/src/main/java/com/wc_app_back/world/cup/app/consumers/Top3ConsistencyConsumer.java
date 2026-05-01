@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -15,11 +16,20 @@ public class Top3ConsistencyConsumer {
     private final Top3ConsistencyStatsRepository repo;
 
     @KafkaListener(topics = "worldcup.analytics.top3_consistency")
-    public void consume(Map<String, Double> payload) {
+    public void consume(List<Map<String, Object>> payload) {
 
-        payload.forEach((country, score) -> {
+        repo.deleteAll();
+
+        payload.forEach(row -> {
+
+            String country = (String) row.get("TEAM"); // ⚠️ check key name!
+            Double score = Double.valueOf(row.get("score").toString());
 
             Top3ConsistencyStats entity = repo.findByCountry(country);
+
+            if (entity == null) {
+                entity = new Top3ConsistencyStats();
+            }
 
             entity.setCountry(country);
             entity.setConsistencyScore(score);

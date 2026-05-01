@@ -17,10 +17,12 @@ public class ScoringCorrConsumer {
     @KafkaListener(topics = "worldcup.analytics.scoring_corr")
     public void consume(Map<String, Double> payload) {
 
+        // 🔥 snapshot → clear old data
+        repo.deleteAll();
+
         payload.forEach((metric, value) -> {
 
-            ScoringCorrStats entity = repo.findByMetric(metric);
-
+            ScoringCorrStats entity = new ScoringCorrStats();
             entity.setMetric(metric);
             entity.setValue(value);
 

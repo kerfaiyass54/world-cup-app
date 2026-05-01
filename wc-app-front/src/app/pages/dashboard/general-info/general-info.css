@@ -1,0 +1,62 @@
+.dashboard {
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+/* SECTION ANIMATION */
+.section {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: all 0.7s ease;
+}
+
+.section.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* CARDS */
+.cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  min-width: 180px;
+  flex: 1;
+  text-align: center;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+}
+
+/* GLOW EFFECT */
+.glow {
+  box-shadow: 0 0 20px rgba(140, 0, 255, 0.4);
+}
+
+.highlight {
+  border: 2px solid #a855f7;
+}
+
+/* CHART CARD */
+.chart-card {
+  background: rgba(255,255,255,0.05);
+  padding: 25px;
+  border-radius: 20px;
+}
+
+/* TITLES */
+h2 {
+  margin-bottom: 20px;
+  color: #fff;
+}

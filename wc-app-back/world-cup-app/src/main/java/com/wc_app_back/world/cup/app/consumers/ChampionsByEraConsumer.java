@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -15,21 +16,30 @@ public class ChampionsByEraConsumer {
     private final ChampionEraStatsRepository repo;
 
     @KafkaListener(topics = "worldcup.analytics.champions_by_era")
-    public void consume(Map<String, Map<String, Integer>> payload) {
+    public void consume(List<Map<String, Object>> payload) {
 
-        payload.forEach((era, countries) -> {
+        repo.deleteAll();
 
-            countries.forEach((country, wins) -> {
+        payload.forEach(row -> {
 
-                ChampionEraStats entity = repo
-                        .findByEraAndCountry(era, country);
+            String era = (String) row.get("ERA");
+            String country = (String) row.get("CHAMPION");
 
-                entity.setEra(era);
-                entity.setCountry(country);
-                entity.setWins(wins);
+            // 👇 VERY IMPORTANT (your column name is "0")
+            Integer wins = ((Number) row.get("0")).intValue();
 
-                repo.save(entity);
-            });
+            ChampionEraStats entity =
+                    repo.findByEraAndCountry(era, country);
+
+            if (entity == null) {
+                entity = new ChampionEraStats();
+            }
+
+            entity.setEra(era);
+            entity.setCountry(country);
+            entity.setWins(wins);
+
+            repo.save(entity);
         });
     }
 }

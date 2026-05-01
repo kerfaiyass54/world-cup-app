@@ -1,1 +1,83 @@
-<p>general-info works!</p>
+<div class="dashboard">
+
+  <!-- SUMMARY CARDS -->
+  <div class="section cards" [class.show]="visible[0]">
+    <div class="card glow">
+      <h3>{{summary?.totalEditions}}</h3>
+      <p>Editions</p>
+    </div>
+
+    <div class="card glow">
+      <h3>{{summary?.totalChampions}}</h3>
+      <p>Champions</p>
+    </div>
+
+    <div class="card glow">
+      <h3>{{summary?.totalHosts}}</h3>
+      <p>Hosts</p>
+    </div>
+
+    <div class="card glow highlight">
+      <h3>{{summary?.highestAvgGoals}}</h3>
+      <p>Goals/Game ({{summary?.highestAvgGoalsYear}})</p>
+    </div>
+  </div>
+
+
+  <!-- CHAMPIONS -->
+  <div class="section" [class.show]="visible[1]">
+    <h2>🏆 Top Champions</h2>
+    <div class="chart-card">
+      <canvas id="championsChart"></canvas>
+    </div>
+  </div>
+
+
+  <!-- TOP 3 -->
+  <div class="section" [class.show]="visible[2]">
+    <h2>🥇 Top 3 Consistency</h2>
+    <div class="chart-card">
+      <canvas id="top3Chart"></canvas>
+    </div>
+  </div>
+
+
+  <!-- GOALS -->
+  <div class="section" [class.show]="visible[3]">
+    <h2>⚽ Goals by Era</h2>
+    <div class="chart-card">
+      <canvas id="goalsChart"></canvas>
+    </div>
+  </div>
+
+
+  <!-- HOSTS -->
+  <div class="section cards" [class.show]="visible[4]">
+    <h2>🏠 Host Advantage</h2>
+
+    <div class="card">
+      <h3>{{hosts?.hostTop3Count}}</h3>
+      <p>Top 3 Finishes</p>
+    </div>
+
+    <div class="card">
+      <h3>{{hosts?.hostFinalCount}}</h3>
+      <p>Final Appearances</p>
+    </div>
+
+    <div class="card">
+      <h3>{{hosts?.hostChampionCount}}</h3>
+      <p>Champions</p>
+    </div>
+  </div>
+
+
+  <!-- STRUCTURE -->
+  <div class="section" [class.show]="visible[5]">
+    <h2>📈 Tournament Evolution</h2>
+    <div class="chart-card">
+      <canvas id="structureChart"></canvas>
+    </div>
+  </div>
+
+</div>

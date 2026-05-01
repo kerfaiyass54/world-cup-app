@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -15,11 +16,20 @@ public class Top3Consumer {
     private final Top3StatsRepository repo;
 
     @KafkaListener(topics = "worldcup.analytics.top3")
-    public void consume(Map<String, Integer> payload) {
+    public void consume(List<Map<String, Object>> payload) {
 
-        payload.forEach((country, count) -> {
+        repo.deleteAll();
 
-            Top3Stats entity = repo.findByCountry((country));
+        payload.forEach(row -> {
+
+            String country = (String) row.get("index");
+            Integer count = (Integer) row.get("count");
+
+            Top3Stats entity = repo.findByCountry(country);
+
+            if (entity == null) {
+                entity = new Top3Stats();
+            }
 
             entity.setCountry(country);
             entity.setAppearances(count);

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -15,13 +16,23 @@ public class RunnerupsConsumer {
     private final RunnerupStatsRepository repo;
 
     @KafkaListener(topics = "worldcup.analytics.runnerups")
-    public void consume(Map<String, Integer> payload) {
+    public void consume(List<Map<String, Object>> payload) {
 
-        payload.forEach((country, count) -> {
+        repo.deleteAll();
+
+        payload.forEach(row -> {
+
+            String country = (String) row.get("RUNNER UP");
+            Integer count = ((Number) row.get("count")).intValue();
 
             RunnerupStats entity = repo.findByCountry(country);
 
-            entity.setCountry(country);
+            // ✅ avoid crash
+            if (entity == null) {
+                entity = new RunnerupStats();
+                entity.setCountry(country);
+            }
+
             entity.setRunnerupCount(count);
 
             repo.save(entity);

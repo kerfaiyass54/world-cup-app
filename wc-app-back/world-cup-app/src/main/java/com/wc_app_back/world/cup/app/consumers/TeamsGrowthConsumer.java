@@ -18,17 +18,22 @@ public class TeamsGrowthConsumer {
     @KafkaListener(topics = "worldcup.analytics.teams_growth")
     public void consume(List<Map<String, Object>> payload) {
 
-        payload.forEach(row -> {
+        repo.deleteAll();
 
-            Integer year = (Integer) row.get("YEAR");
-            Integer teams = (Integer) row.get("TEAMS");
+        List<TeamsGrowth> entities = payload.stream()
+                .map(row -> {
 
-            TeamsGrowth entity = repo.findByYear(year);
+                    Integer year = ((Number) row.get("YEAR")).intValue();
+                    Integer teams = ((Number) row.get("TEAMS")).intValue();
 
-            entity.setYear(year);
-            entity.setTeams(teams);
+                    TeamsGrowth entity = new TeamsGrowth();
+                    entity.setYear(year);
+                    entity.setTeams(teams);
 
-            repo.save(entity);
-        });
+                    return entity;
+                })
+                .toList();
+
+        repo.saveAll(entities);
     }
 }

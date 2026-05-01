@@ -17,12 +17,19 @@ public class HostMetricsConsumer {
     @KafkaListener(topics = "worldcup.analytics.host_metrics")
     public void consume(Map<String, Object> payload) {
 
+        repo.deleteAll();
+
         payload.forEach((metric, value) -> {
 
             HostMetrics entity = repo.findByMetric(metric);
 
-            entity.setMetric(metric);
-            entity.setValue(Double.valueOf(value.toString()));
+            // ✅ handle first insert
+            if (entity == null) {
+                entity = new HostMetrics();
+                entity.setMetric(metric);
+            }
+
+            entity.setValue(((Number) value).doubleValue());
 
             repo.save(entity);
         });

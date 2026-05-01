@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -15,16 +16,23 @@ public class StructureByEraConsumer {
     private final StructureByEraRepository repo;
 
     @KafkaListener(topics = "worldcup.analytics.structure_by_era")
-    public void consume(Map<String, Map<String, Double>> payload) {
+    public void consume(List<Map<String, Object>> payload) {
 
-        payload.forEach((era, values) -> {
+        repo.deleteAll();
 
-            StructureByEra entity = repo.findByEra(era);
+        payload.forEach(row -> {
 
+            String era = (String) row.get("ERA");
+
+            Double teams = Double.valueOf(row.get("TEAMS").toString());
+            Double matches = Double.valueOf(row.get("MATCHES PLAYED").toString());
+            Double goals = Double.valueOf(row.get("GOALS SCORED").toString());
+
+            StructureByEra entity = new StructureByEra();
             entity.setEra(era);
-            entity.setAvgTeams(values.get("TEAMS"));
-            entity.setAvgMatches(values.get("MATCHES PLAYED"));
-            entity.setAvgGoals(values.get("GOALS SCORED"));
+            entity.setAvgTeams(teams);
+            entity.setAvgMatches(matches);
+            entity.setAvgGoals(goals);
 
             repo.save(entity);
         });

@@ -18,14 +18,21 @@ public class MatchesGrowthConsumer {
     @KafkaListener(topics = "worldcup.analytics.matches_growth")
     public void consume(List<Map<String, Object>> payload) {
 
+        repo.deleteAll();
+
         payload.forEach(row -> {
 
-            Integer year = (Integer) row.get("YEAR");
-            Integer matches = (Integer) row.get("MATCHES PLAYED");
+            Integer year = ((Number) row.get("YEAR")).intValue();
+            Integer matches = ((Number) row.get("MATCHES PLAYED")).intValue();
 
             MatchesGrowth entity = repo.findByYear(year);
 
-            entity.setYear(year);
+            // ✅ fix null case
+            if (entity == null) {
+                entity = new MatchesGrowth();
+                entity.setYear(year);
+            }
+
             entity.setMatches(matches);
 
             repo.save(entity);

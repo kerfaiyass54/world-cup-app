@@ -17,15 +17,13 @@ public class RunnerupsWithoutTitlesConsumer {
     @KafkaListener(topics = "worldcup.analytics.runnerups_without_titles")
     public void consume(List<String> payload) {
 
+        // 🔥 Clear old data (IMPORTANT)
+        repo.deleteAll();
+
         payload.forEach(country -> {
-
-            if (!repo.existsByCountry(country)) {
-
-                RunnerupWithoutTitles entity = new RunnerupWithoutTitles();
-                entity.setCountry(country);
-
-                repo.save(entity);
-            }
+            RunnerupWithoutTitles entity = new RunnerupWithoutTitles();
+            entity.setCountry(country);
+            repo.save(entity);
         });
     }
 }

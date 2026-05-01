@@ -16,11 +16,11 @@ public class ThirdplaceConsumer {
 
     @KafkaListener(topics = "worldcup.analytics.thirdplace")
     public void consume(Map<String, Integer> payload) {
+        repo.deleteAll();
 
         payload.forEach((country, count) -> {
 
-            ThirdplaceStats entity = repo.findByCountry(country)
-                    .orElse(new ThirdplaceStats());
+            ThirdplaceStats entity = repo.findByCountry(country);
 
             entity.setCountry(country);
             entity.setThirdplaceCount(count);

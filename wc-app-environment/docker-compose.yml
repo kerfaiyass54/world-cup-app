@@ -1,137 +1,113 @@
+version: '3.8'
+
 services:
 
-  # ─────────────────────────────────────────
+  # =========================
   # PostgreSQL
-  # ─────────────────────────────────────────
-  postgres:
-    image: postgres:16-alpine
-    container_name: postgres
-    restart: unless-stopped
+  # =========================
+  postgresql:
+    container_name: wc_pg_sql
+    image: postgres:15
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-admin}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-secret}
-      POSTGRES_DB: ${POSTGRES_DB:-worldcup_db}
+      POSTGRES_USER: alibou
+      POSTGRES_PASSWORD: alibou
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
     ports:
       - "5437:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-admin} -d ${POSTGRES_DB:-worldcup_db}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     networks:
-      - backend
-
-  # ─────────────────────────────────────────
-  # Zookeeper (required by Kafka)
-  # ─────────────────────────────────────────
-  zookeeper:
-    image: confluentinc/cp-zookeeper:7.6.1
-    container_name: zookeeper
+      - wc-environment
     restart: unless-stopped
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
-    ports:
-      - "2187:2181"
-    volumes:
-      - zookeeper_data:/var/lib/zookeeper/data
-      - zookeeper_log:/var/lib/zookeeper/log
-    healthcheck:
-      test: ["CMD-SHELL", "echo ruok | nc localhost 2181 | grep imok"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - backend
 
-  # ─────────────────────────────────────────
-  # Kafka Broker
-  # ─────────────────────────────────────────
-  kafka:
-    image: confluentinc/cp-kafka:7.6.1
-    container_name: kafka
-    restart: unless-stopped
-    depends_on:
-      zookeeper:
-        condition: service_healthy
-    ports:
-      - "9093:9092"       # host access
-      - "29093:29092"     # internal Docker network access
-    environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9093
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
-      KAFKA_LOG_RETENTION_HOURS: 168        # 7 days
-      KAFKA_LOG_SEGMENT_BYTES: 1073741824   # 1 GB
-    volumes:
-      - kafka_data:/var/lib/kafka/data
-    healthcheck:
-      test: ["CMD-SHELL", "kafka-topics --bootstrap-server localhost:9092 --list"]
-      interval: 15s
-      timeout: 10s
-      retries: 5
-    networks:
-      - backend
 
-  # ─────────────────────────────────────────
-  # pgAdmin
-  # ─────────────────────────────────────────
+  # =========================
+  # PGAdmin
+  # =========================
   pgadmin:
-    image: dpage/pgadmin4:latest
-    container_name: pgadmin
-    restart: unless-stopped
-    depends_on:
-      postgres:
-        condition: service_healthy
+    container_name: wc_pgadmin
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: pgadmin4@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin:/var/lib/pgadmin
     ports:
       - "5054:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@admin.com}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
-      PGADMIN_CONFIG_SERVER_MODE: "True"
-    volumes:
-      - pgadmin_data:/var/lib/pgadmin
     networks:
-      - backend
+      - wc-environment
+    restart: unless-stopped
 
-  # ─────────────────────────────────────────
+
+  # =========================
+  # ZooKeeper
+  # =========================
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_SERVER_ID: 1
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "22181:2181"
+    networks:
+      - wc-environment
+
+
+  # =========================
+  # Kafka
+  # =========================
+  kafka:
+    image: confluentinc/cp-kafka:7.3.0   # ✅ FIXED VERSION
+    container_name: wc_kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "29093:29093"
+    environment:
+
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:29093,PLAINTEXT_HOST://0.0.0.0:9092
+
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://wc_kafka:29093,PLAINTEXT_HOST://localhost:9092
+
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+
+    networks:
+      - wc-environment
+
+
+  # =========================
   # Kafka UI
-  # ─────────────────────────────────────────
+  # =========================
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
-    container_name: kafka-ui
-    restart: unless-stopped
+    container_name: kafka_ui
     depends_on:
-      kafka:
-        condition: service_healthy
+      - kafka
     ports:
-      - "8250:8080"
+      - "8085:8080"
     environment:
-      KAFKA_CLUSTERS_0_NAME: local
-      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: kafka:29092
-      KAFKA_CLUSTERS_0_ZOOKEEPER: zookeeper:2181
+      KAFKA_CLUSTERS_0_NAME: wc-cluster
+      KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS: wc_kafka:29093
     networks:
-      - backend
+      - wc-environment
 
-# ─────────────────────────────────────────
-# Named volumes
-# ─────────────────────────────────────────
-volumes:
-  postgres_data:
-  pgadmin_data:
-  zookeeper_data:
-  zookeeper_log:
-  kafka_data:
 
-# ─────────────────────────────────────────
-# Networks
-# ─────────────────────────────────────────
 networks:
-  backend:
+  wc-environment:
     driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:

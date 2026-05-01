@@ -1,8 +1,6 @@
 import numpy as np
 
-
 def add_era(df):
-
     df["ERA"] = np.select(
         [
             df["YEAR"] < 1950,
@@ -13,7 +11,7 @@ def add_era(df):
             "Early",
             "Mid",
             "Modern"
-        ]
+        ],
+        default="Unknown"  # <-- fix
     )
-
     return df
