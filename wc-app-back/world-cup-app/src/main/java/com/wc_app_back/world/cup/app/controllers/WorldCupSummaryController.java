@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/summary")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class WorldCupSummaryController {
 
     private final WorldCupSummaryService service;

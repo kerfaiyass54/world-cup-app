@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/structure")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class StructureController {
 
     private final StructureService service;

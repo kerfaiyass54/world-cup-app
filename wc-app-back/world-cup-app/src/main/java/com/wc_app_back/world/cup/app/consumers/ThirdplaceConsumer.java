@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -15,13 +16,16 @@ public class ThirdplaceConsumer {
     private final ThirdplaceStatsRepository repo;
 
     @KafkaListener(topics = "worldcup.analytics.thirdplace")
-    public void consume(Map<String, Integer> payload) {
+    public void consume(List<Map<String, Object>> payload) {
+
         repo.deleteAll();
 
-        payload.forEach((country, count) -> {
+        payload.forEach(row -> {
 
-            ThirdplaceStats entity = repo.findByCountry(country);
+            String country = (String) row.get("THIRD PLACE");
+            Integer count = (Integer) row.get("count");
 
+            ThirdplaceStats entity = new ThirdplaceStats();
             entity.setCountry(country);
             entity.setThirdplaceCount(count);
 

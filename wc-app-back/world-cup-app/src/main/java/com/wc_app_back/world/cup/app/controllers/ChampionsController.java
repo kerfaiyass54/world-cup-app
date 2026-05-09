@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/champions")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class ChampionsController {
 
     private final ChampionsService service;

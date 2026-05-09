@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/goals")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class GoalsController {
 
     private final GoalsService service;

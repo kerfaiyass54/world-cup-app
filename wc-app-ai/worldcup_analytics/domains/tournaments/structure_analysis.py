@@ -9,11 +9,12 @@ def matches_growth(df):
 
 
 def structure_by_era(df):
-
-    return df.groupby("ERA").agg({
-
-        "TEAMS": "mean",
-        "MATCHES PLAYED": "mean",
-        "GOALS SCORED": "mean"
-
-    })
+    return (
+        df.groupby("ERA")
+        .agg({
+            "TEAMS": "mean",
+            "MATCHES PLAYED": "mean",
+            "GOALS SCORED": "mean"
+        })
+        .reset_index()
+    )

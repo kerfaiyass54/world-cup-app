@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/results")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class RunUpThreeController {
 
     private final RunUpThreeService service;

@@ -44,7 +44,7 @@ public class WorldCupSummaryService {
 
         try {
             ClassPathResource resource =
-                    new ClassPathResource("data/FIFA - World Cup Summary.csv");
+                    new ClassPathResource("FIFA - World Cup Summary.csv");
 
             CSVReader reader = new CSVReader(
                     new InputStreamReader(resource.getInputStream())
@@ -68,7 +68,7 @@ public class WorldCupSummaryService {
                 int year = Integer.parseInt(row[0]);
                 String host = row[1];
                 String champion = row[2];
-                double avgGoals = Double.parseDouble(row[9]);
+                double avgGoals = Double.parseDouble(row[8]);
 
                 champions.add(champion);
                 hosts.add(host);

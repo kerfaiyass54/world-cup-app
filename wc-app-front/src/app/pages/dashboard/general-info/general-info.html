@@ -1,83 +1,161 @@
 <div class="dashboard">
+  <!-- HERO TITLE -->
 
-  <!-- SUMMARY CARDS -->
-  <div class="section cards" [class.show]="visible[0]">
+  <div class="hero">
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
+      <h1>
+        FIFA WORLD CUP
+      </h1>
+
+      <h3>
+        Ultimate Analytics Dashboard
+      </h3>
+
+      <p>
+        Champions • Goals • Hosts • Evolution • Statistics
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- SUMMARY -->
+  <div class="section cards" [class.show]="true">
+
     <div class="card glow">
+      <div class="orb"></div>
       <h3>{{summary?.totalEditions}}</h3>
       <p>Editions</p>
     </div>
 
     <div class="card glow">
+      <div class="orb"></div>
       <h3>{{summary?.totalChampions}}</h3>
       <p>Champions</p>
     </div>
 
     <div class="card glow">
+      <div class="orb"></div>
       <h3>{{summary?.totalHosts}}</h3>
       <p>Hosts</p>
     </div>
 
     <div class="card glow highlight">
+      <div class="orb"></div>
       <h3>{{summary?.highestAvgGoals}}</h3>
-      <p>Goals/Game ({{summary?.highestAvgGoalsYear}})</p>
+      <p>Goals/Game</p>
+      <small>{{summary?.highestAvgGoalsYear}}</small>
     </div>
-  </div>
 
+  </div>
 
   <!-- CHAMPIONS -->
   <div class="section" [class.show]="visible[1]">
+
     <h2>🏆 Top Champions</h2>
+
     <div class="chart-card">
       <canvas id="championsChart"></canvas>
     </div>
+
   </div>
 
-
-  <!-- TOP 3 -->
+  <!-- TOP3 -->
   <div class="section" [class.show]="visible[2]">
+
     <h2>🥇 Top 3 Consistency</h2>
+
     <div class="chart-card">
       <canvas id="top3Chart"></canvas>
     </div>
-  </div>
 
+  </div>
 
   <!-- GOALS -->
   <div class="section" [class.show]="visible[3]">
-    <h2>⚽ Goals by Era</h2>
+
+    <h2>⚽ Goals By Era</h2>
+
     <div class="chart-card">
       <canvas id="goalsChart"></canvas>
     </div>
-  </div>
 
+  </div>
 
   <!-- HOSTS -->
   <div class="section cards" [class.show]="visible[4]">
-    <h2>🏠 Host Advantage</h2>
 
-    <div class="card">
+    <h2 class="title-full">🏠 Host Advantage</h2>
+
+    <div class="card host">
       <h3>{{hosts?.hostTop3Count}}</h3>
       <p>Top 3 Finishes</p>
     </div>
 
-    <div class="card">
+    <div class="card host">
       <h3>{{hosts?.hostFinalCount}}</h3>
       <p>Final Appearances</p>
     </div>
 
-    <div class="card">
+    <div class="card host">
       <h3>{{hosts?.hostChampionCount}}</h3>
       <p>Champions</p>
     </div>
+
+    <div class="card host danger">
+      <h3>{{hosts?.hostNotTop3Count}}</h3>
+      <p>Failed Hosts</p>
+    </div>
+
+  </div>
+
+  <!-- CHAMPIONS ERA -->
+  <div class="section" [class.show]="visible[5]">
+
+    <h2>🌍 Champions By Era</h2>
+
+    <div class="chart-card">
+      <canvas id="eraChart"></canvas>
+    </div>
+
+  </div>
+
+  <!-- RUNNER UPS -->
+  <div class="section" [class.show]="visible[6]">
+
+    <h2>🥈 Runner-Ups</h2>
+
+    <div class="chart-card">
+      <canvas id="runnerChart"></canvas>
+    </div>
+
+  </div>
+
+  <!-- THIRD PLACE -->
+  <div class="section" [class.show]="visible[7]">
+
+    <h2>🥉 Third Place</h2>
+
+    <div class="chart-card">
+      <canvas id="thirdChart"></canvas>
+    </div>
+
   </div>
 
 
   <!-- STRUCTURE -->
-  <div class="section" [class.show]="visible[5]">
+  <div class="section" [class.show]="visible[8]">
+
     <h2>📈 Tournament Evolution</h2>
+
     <div class="chart-card">
       <canvas id="structureChart"></canvas>
     </div>
+
   </div>
 
 </div>

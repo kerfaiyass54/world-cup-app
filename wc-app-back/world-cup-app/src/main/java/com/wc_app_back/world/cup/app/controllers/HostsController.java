@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/hosts")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class HostsController {
 
     private final HostsService service;

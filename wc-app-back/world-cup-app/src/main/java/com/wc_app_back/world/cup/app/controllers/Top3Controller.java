@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/top3")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class Top3Controller {
 
     private final Top3Services service;

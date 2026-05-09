@@ -22,8 +22,8 @@ public class Top3ConsistencyConsumer {
 
         payload.forEach(row -> {
 
-            String country = (String) row.get("TEAM"); // ⚠️ check key name!
-            Double score = Double.valueOf(row.get("score").toString());
+            String country = (String) row.get("index");
+            Double count = (Double) row.get("count");
 
             Top3ConsistencyStats entity = repo.findByCountry(country);
 
@@ -32,7 +32,7 @@ public class Top3ConsistencyConsumer {
             }
 
             entity.setCountry(country);
-            entity.setConsistencyScore(score);
+            entity.setConsistencyScore(count);
 
             repo.save(entity);
         });
