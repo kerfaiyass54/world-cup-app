@@ -119,3 +119,66 @@ CREATE TABLE worldcup_summary_stats (
                                         highest_avg_goals DOUBLE PRECISION NOT NULL,
                                         highest_avg_goals_year INTEGER NOT NULL
 );
+
+CREATE TABLE yearly_summary (
+                                id SERIAL PRIMARY KEY,
+                                year INTEGER,
+                                host VARCHAR(100),
+                                champion VARCHAR(100),
+                                runner_up VARCHAR(100),
+                                matches INTEGER,
+                                top_scorer_player VARCHAR(100),
+                                top_scorer_goals INTEGER
+);
+
+CREATE TABLE highest_attendance (
+                                    id SERIAL PRIMARY KEY,
+                                    year INTEGER,
+                                    host VARCHAR(100),
+                                    attendance INTEGER
+);
+
+CREATE TABLE highest_avg_attendance (
+                                        id SERIAL PRIMARY KEY,
+                                        year INTEGER,
+                                        host VARCHAR(100),
+                                        attendance_avg INTEGER
+);
+
+CREATE TABLE attendance_by_year (
+                                    id SERIAL PRIMARY KEY,
+                                    year INTEGER,
+                                    attendance INTEGER
+);
+
+CREATE TABLE avg_attendance_by_year (
+                                        id SERIAL PRIMARY KEY,
+                                        year INTEGER,
+                                        attendance_avg INTEGER
+);
+
+CREATE TABLE attendance_by_host (
+                                    id SERIAL PRIMARY KEY,
+                                    host VARCHAR(100),
+                                    attendance INTEGER
+);
+
+CREATE TABLE avg_attendance_by_host (
+                                        id SERIAL PRIMARY KEY,
+                                        host VARCHAR(100),
+                                        attendance_avg INTEGER
+);
+
+CREATE TABLE best_top_scorer (
+                                 id SERIAL PRIMARY KEY,
+                                 year INTEGER,
+                                 player VARCHAR(100),
+                                 goals INTEGER
+);
+
+CREATE TABLE top_scorer_goals (
+                                  id SERIAL PRIMARY KEY,
+                                  year INTEGER,
+                                  top_scorer_player VARCHAR(100),
+                                  top_scorer_goals INTEGER
+);
