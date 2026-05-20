@@ -1,4 +1,5 @@
 import json
+import numpy as np
 from kafka import KafkaProducer
 
 from pipeline.yearly_summary import yearly_summary
@@ -21,10 +22,22 @@ from pipeline.topscorer import (
 from pipeline.host_analysis import host_summary
 
 
+class NumpyEncoder(json.JSONEncoder):
+    """Custom encoder to handle numpy/pandas scalar types."""
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super().default(obj)
+
+
 # Kafka Producer
 producer = KafkaProducer(
-    bootstrap_servers="wc_kafka:29093",
-    value_serializer=lambda v: json.dumps(v).encode("utf-8")
+    bootstrap_servers="localhost:9092",
+    value_serializer=lambda v: json.dumps(v, cls=NumpyEncoder).encode("utf-8")
 )
 
 
@@ -41,6 +54,22 @@ def send_to_kafka(topic, data):
     producer.flush()
 
     print(f"Data sent to topic: {topic}")
+
+
+def to_json_safe(data):
+    """
+    Converts pandas objects into JSON-safe structures
+    """
+
+    # DataFrame
+    if hasattr(data, "to_dict"):
+        try:
+            return data.to_dict(orient="records")
+        except Exception:
+            return data.reset_index().to_dict(orient="records")
+
+    # Fallback
+    return data
 
 
 def produce_all_results(df):
