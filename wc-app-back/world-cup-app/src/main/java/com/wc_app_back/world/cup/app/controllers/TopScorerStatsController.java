@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/top-scorers")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class TopScorerStatsController {
 
     private final TopScorerStatsService service;

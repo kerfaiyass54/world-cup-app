@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/attendance/host")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class AttendanceHostStatsController {
 
     private final AttendanceHostStatsService service;

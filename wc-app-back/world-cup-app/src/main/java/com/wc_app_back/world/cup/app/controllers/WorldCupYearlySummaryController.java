@@ -11,6 +11,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/yearly-summary")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class WorldCupYearlySummaryController {
 
     private final WorldCupYearlySummaryService service;

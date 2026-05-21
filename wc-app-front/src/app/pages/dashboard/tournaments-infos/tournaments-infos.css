@@ -1,0 +1,742 @@
+:host{
+  display:block;
+}
+
+/* =========================================================
+   CONTAINER
+========================================================= */
+
+.page-wrapper{
+  display:flex;
+  flex-direction:column;
+  gap:70px;
+  width:100%;
+  box-sizing:border-box;
+  overflow:hidden;
+}
+
+/* =========================================================
+   REVEAL ANIMATION
+========================================================= */
+
+.reveal{
+  opacity:0;
+  transform:translateY(70px) scale(.98);
+
+  transition:
+    opacity .9s cubic-bezier(.22,1,.36,1),
+    transform .9s cubic-bezier(.22,1,.36,1);
+}
+
+.reveal.active{
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+
+/* =========================================================
+   TOP CARDS
+========================================================= */
+
+.top-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:36px;
+  width:100%;
+}
+
+.main-card{
+  position:relative;
+  overflow:hidden;
+
+  min-height:340px;
+
+  padding:48px;
+
+  border-radius:36px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15,23,42,.95),
+      rgba(30,41,59,.88)
+    );
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(24px);
+
+  cursor:pointer;
+
+  display:flex;
+  align-items:flex-end;
+
+  transition:
+    transform .45s cubic-bezier(.22,1,.36,1),
+    border .45s ease,
+    box-shadow .45s ease,
+    background .45s ease;
+
+  isolation:isolate;
+}
+
+.main-card::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(34,211,238,.18),
+      transparent 45%
+    );
+
+  opacity:.9;
+
+  z-index:-1;
+}
+
+.main-card:hover{
+  transform:
+    translateY(-10px)
+    scale(1.015);
+
+  border:
+    1px solid rgba(103,232,249,.22);
+
+  box-shadow:
+    0 30px 70px rgba(0,0,0,.45);
+}
+
+.main-card-content{
+  position:relative;
+  z-index:2;
+}
+
+.main-badge{
+  display:inline-flex;
+  align-items:center;
+
+  padding:10px 18px;
+
+  border-radius:999px;
+
+  background:
+    rgba(255,255,255,.06);
+
+  color:#cbd5e1;
+
+  font-size:.78rem;
+  font-weight:700;
+
+  letter-spacing:1px;
+
+  text-transform:uppercase;
+}
+
+.main-card h2{
+  margin-top:28px;
+
+  font-size:4.2rem;
+  font-weight:800;
+
+  line-height:1;
+
+  letter-spacing:-2px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #67e8f9,
+      #818cf8
+    );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.main-card p{
+  margin-top:22px;
+
+  max-width:540px;
+
+  color:#94a3b8;
+
+  font-size:1.05rem;
+
+  line-height:1.9;
+}
+
+/* =========================================================
+   CHARTS
+========================================================= */
+
+.section{
+  width:100%;
+}
+
+.section-header{
+  margin-bottom:28px;
+}
+
+.section-header h2{
+  font-size:3rem;
+  font-weight:800;
+
+  background:
+    linear-gradient(
+      90deg,
+      #67e8f9,
+      #818cf8
+    );
+
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+}
+
+.charts-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:35px;
+}
+
+.chart-box{
+  height:520px;
+
+  padding:26px;
+
+  border-radius:32px;
+
+  background:
+    rgba(255,255,255,.045);
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(24px);
+
+  overflow:hidden;
+}
+
+.giant{
+  height:760px;
+}
+
+/* =========================================================
+   MODALS
+========================================================= */
+
+.modal-overlay{
+  position:fixed;
+
+  inset:0;
+
+  width:100vw;
+  height:100vh;
+
+  z-index:999999;
+
+  background:
+    rgba(2,6,23,.82);
+
+  backdrop-filter:blur(16px);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  overflow:hidden;
+
+  padding:30px;
+
+  animation:fadeIn .25s ease;
+}
+
+@keyframes fadeIn{
+  from{
+    opacity:0;
+  }
+
+  to{
+    opacity:1;
+  }
+}
+
+.modal-box{
+  position:relative;
+
+  width:min(1450px,100%);
+  max-height:92vh;
+
+  border-radius:38px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #081225,
+      #0f172a
+    );
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  box-shadow:
+    0 50px 140px rgba(0,0,0,.7);
+
+  overflow:hidden;
+
+  display:flex;
+  flex-direction:column;
+
+  animation:
+    modalIn .35s cubic-bezier(.22,1,.36,1);
+}
+
+@keyframes modalIn{
+
+  from{
+    opacity:0;
+
+    transform:
+      translateY(40px)
+      scale(.96);
+  }
+
+  to{
+    opacity:1;
+
+    transform:
+      translateY(0)
+      scale(1);
+  }
+}
+
+.modal-head{
+  position:sticky;
+  top:0;
+
+  z-index:10;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:30px 36px;
+
+  background:
+    rgba(8,18,37,.92);
+
+  border-bottom:
+    1px solid rgba(255,255,255,.06);
+
+  backdrop-filter:blur(20px);
+}
+
+.modal-head span{
+  color:white;
+
+  font-size:1.4rem;
+  font-weight:700;
+
+  letter-spacing:.3px;
+}
+
+.modal-close{
+  width:52px;
+  height:52px;
+
+  border:none;
+  border-radius:50%;
+
+  background:
+    rgba(255,255,255,.08);
+
+  color:white;
+
+  font-size:1.4rem;
+
+  cursor:pointer;
+
+  transition:.3s ease;
+}
+
+.modal-close:hover{
+  transform:rotate(90deg);
+
+  background:
+    rgba(239,68,68,.25);
+
+  color:#f87171;
+}
+
+.modal-body{
+  padding:38px;
+
+  overflow-y:auto;
+  overflow-x:hidden;
+
+  flex:1;
+}
+
+.modal-body::-webkit-scrollbar{
+  width:8px;
+}
+
+.modal-body::-webkit-scrollbar-thumb{
+  background:
+    linear-gradient(
+      180deg,
+      #22d3ee,
+      #6366f1
+    );
+
+  border-radius:20px;
+}
+
+/* =========================================================
+   TOURNAMENTS GRID
+========================================================= */
+
+.tournaments-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(320px,1fr));
+
+  gap:30px;
+
+  width:100%;
+}
+
+/* =========================================================
+   TOURNAMENT CARD
+========================================================= */
+
+.tournament-card{
+  position:relative;
+
+  overflow:hidden;
+
+  min-height:280px;
+
+  padding:34px;
+
+  border-radius:32px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15,23,42,.96),
+      rgba(30,41,59,.9)
+    );
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  transition:
+    transform .45s cubic-bezier(.22,1,.36,1),
+    border .45s ease,
+    box-shadow .45s ease;
+
+  cursor:pointer;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+
+  isolation:isolate;
+}
+
+.tournament-card::before{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(34,211,238,.16),
+      transparent 45%
+    );
+
+  z-index:-1;
+}
+
+.tournament-card:hover{
+  transform:
+    translateY(-10px)
+    scale(1.02);
+
+  border:
+    1px solid rgba(103,232,249,.22);
+
+  box-shadow:
+    0 25px 60px rgba(0,0,0,.45);
+}
+
+.card-year{
+  display:inline-flex;
+
+  width:max-content;
+
+  padding:10px 18px;
+
+  border-radius:999px;
+
+  background:
+    rgba(255,255,255,.06);
+
+  color:#67e8f9;
+
+  font-size:.9rem;
+  font-weight:700;
+
+  margin-bottom:24px;
+}
+
+.tournament-card h3{
+  margin:0;
+
+  color:white;
+
+  font-size:2.1rem;
+  font-weight:800;
+
+  line-height:1.1;
+
+  letter-spacing:-1px;
+}
+
+.divider{
+  width:100%;
+  height:1px;
+
+  background:
+    rgba(255,255,255,.08);
+
+  margin:26px 0;
+}
+
+.mini-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  padding:12px 0;
+}
+
+.label{
+  color:#94a3b8;
+
+  font-size:.95rem;
+}
+
+.mini-row strong{
+  color:white;
+
+  font-size:1rem;
+  font-weight:700;
+}
+
+/* =========================================================
+   HIGHLIGHTS MODAL
+========================================================= */
+
+.highlights-grid{
+  display:grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(320px,1fr));
+
+  gap:28px;
+}
+
+.highlight-card{
+  position:relative;
+
+  overflow:hidden;
+
+  padding:42px;
+
+  border-radius:34px;
+
+  min-height:300px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  backdrop-filter:blur(18px);
+
+  transition:
+    transform .4s ease,
+    box-shadow .4s ease,
+    border .4s ease;
+}
+
+.highlight-card:hover{
+  transform:
+    translateY(-10px)
+    scale(1.02);
+
+  border:
+    1px solid rgba(255,255,255,.12);
+
+  box-shadow:
+    0 24px 50px rgba(0,0,0,.35);
+}
+
+.highlight-card span{
+  color:#e2e8f0;
+
+  font-size:1rem;
+
+  letter-spacing:.5px;
+}
+
+.highlight-card h1{
+  margin:24px 0 16px;
+
+  color:white;
+
+  font-size:5rem;
+  font-weight:900;
+
+  line-height:1;
+
+  letter-spacing:-3px;
+}
+
+.highlight-card p{
+  color:#cbd5e1;
+
+  font-size:1.02rem;
+
+  line-height:1.8;
+
+  margin:0;
+}
+
+.cyan{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(0,229,255,.22),
+      rgba(0,229,255,.04)
+    );
+}
+
+.purple{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(124,77,255,.22),
+      rgba(124,77,255,.04)
+    );
+}
+
+.red{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,23,68,.22),
+      rgba(255,23,68,.04)
+    );
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1200px){
+
+  .tournaments-grid{
+    grid-template-columns:
+      repeat(2,minmax(280px,1fr));
+  }
+}
+
+@media(max-width:992px){
+
+  .top-grid,
+  .charts-grid{
+    grid-template-columns:1fr;
+  }
+
+  .main-card{
+    min-height:300px;
+  }
+
+  .main-card h2{
+    font-size:3.2rem;
+  }
+
+  .section-header h2{
+    font-size:2.3rem;
+  }
+
+  .modal-overlay{
+    padding:18px;
+  }
+
+  .modal-body{
+    padding:24px;
+  }
+}
+
+@media(max-width:700px){
+
+  .tournaments-grid{
+    grid-template-columns:1fr;
+  }
+
+  .highlight-card h1{
+    font-size:3.8rem;
+  }
+
+  .main-card{
+    padding:34px;
+  }
+
+  .chart-box{
+    height:420px;
+  }
+
+  .giant{
+    height:620px;
+  }
+}
+
+@media(max-width:600px){
+
+  .main-card h2{
+    font-size:2.5rem;
+  }
+
+  .main-card{
+    min-height:260px;
+  }
+
+  .modal-head{
+    padding:22px;
+  }
+
+  .modal-head span{
+    font-size:1.1rem;
+  }
+
+  .highlight-card{
+    min-height:260px;
+    padding:32px;
+  }
+
+  .highlight-card h1{
+    font-size:3rem;
+  }
+}

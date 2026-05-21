@@ -12,6 +12,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/attendance/year")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class AttendanceYearStatsController {
 
     private final AttendanceYearStatsService service;

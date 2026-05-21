@@ -8,6 +8,10 @@ export class ApiService {
 
   constructor(private http: HttpClient) {}
 
+  // =========================================
+  // EXISTING APIs
+  // =========================================
+
   champions() {
     return this.http.get<any>(`${this.base}/champions`);
   }
@@ -40,10 +44,6 @@ export class ApiService {
     return this.http.get<any>(`${this.base}/top3/stats`);
   }
 
-  top3Consistency() {
-    return this.http.get<any>(`${this.base}/top3/consistency/top`);
-  }
-
   structure() {
     return this.http.get<any>(`${this.base}/structure/combined`);
   }
@@ -51,4 +51,97 @@ export class ApiService {
   summary() {
     return this.http.get<any>(`${this.base}/summary`);
   }
+
+  // =========================================
+  // YEARLY SUMMARY
+  // =========================================
+
+  yearlySummary() {
+    return this.http.get<any[]>(
+      `${this.base}/yearly-summary`
+    );
+  }
+
+  yearlySummaryNames() {
+    return this.http.get<any>(
+      `${this.base}/yearly-summary/names`
+    );
+  }
+
+  yearlySummaryByYear(year: number) {
+    return this.http.get<any>(
+      `${this.base}/yearly-summary/${year}`
+    );
+  }
+
+  // =========================================
+  // HIGHLIGHTS
+  // =========================================
+
+  highestAttendance() {
+    return this.http.get<any>(
+      `${this.base}/highlights/highest-attendance`
+    );
+  }
+
+  highestAvgAttendance() {
+    return this.http.get<any>(
+      `${this.base}/highlights/highest-avg-attendance`
+    );
+  }
+
+  bestTopScorer() {
+    return this.http.get<any>(
+      `${this.base}/highlights/best-top-scorer`
+    );
+  }
+
+  // =========================================
+  // ATTENDANCE BY HOST
+  // =========================================
+
+  attendanceByHost() {
+    return this.http.get<any>(
+      `${this.base}/attendance/host`
+    );
+  }
+
+  avgAttendanceByHost() {
+    return this.http.get<any>(
+      `${this.base}/attendance/host/avg`
+    );
+  }
+
+  // =========================================
+  // ATTENDANCE BY YEAR
+  // =========================================
+
+  attendanceByYear() {
+    return this.http.get<any>(
+      `${this.base}/attendance/year`
+    );
+  }
+
+  avgAttendanceByYear() {
+    return this.http.get<any>(
+      `${this.base}/attendance/year/avg`
+    );
+  }
+
+  // =========================================
+  // TOP SCORERS
+  // =========================================
+
+  topScorers() {
+    return this.http.get<any>(
+      `${this.base}/top-scorers`
+    );
+  }
+
+  topScorerTitles() {
+    return this.http.get<any>(
+      `${this.base}/top-scorers/titles`
+    );
+  }
+
 }

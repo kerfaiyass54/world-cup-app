@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/highlights")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class TournamentHighlightsController {
 
     private final TournamentHighlightsService service;

@@ -1,1 +1,318 @@
-<p>tournaments-infos works!</p>
+<div class="page-wrapper">
+
+  <!-- =========================================
+       MAIN DASHBOARD CARDS
+  ========================================== -->
+
+  <section class="dashboard-grid reveal">
+
+    <!-- TOURNAMENTS -->
+    <div
+      class="main-card tournaments-card"
+      (click)="openTimelineModal()"
+    >
+
+      <div class="card-bg"></div>
+
+      <div class="main-card-content">
+
+        <span class="main-badge">
+          FIFA ARCHIVE
+        </span>
+
+        <h2>
+          Tournaments
+        </h2>
+
+        <p>
+          Browse every FIFA World Cup tournament,
+          champions, hosts and years.
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- HIGHLIGHTS -->
+    <div
+      class="main-card highlights-card"
+      (click)="openHighlightsModal()"
+    >
+
+      <div class="card-bg purple"></div>
+
+      <div class="main-card-content">
+
+        <span class="main-badge">
+          WORLD CUP RECORDS
+        </span>
+
+        <h2>
+          Highlights
+        </h2>
+
+        <p>
+          Explore attendance records,
+          average attendance and top scorers.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- =========================================
+       CHARTS
+  ========================================== -->
+
+  <section class="section reveal">
+
+    <div class="section-header">
+      <h2>Attendance By Year</h2>
+    </div>
+
+    <div class="charts-grid">
+
+      <div class="chart-box">
+
+        <canvas id="attendanceYearChart"></canvas>
+
+      </div>
+
+      <div class="chart-box">
+
+        <canvas id="avgAttendanceYearChart"></canvas>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="section reveal">
+
+    <div class="section-header">
+      <h2>Attendance By Host</h2>
+    </div>
+
+    <div class="charts-grid">
+
+      <div class="chart-box">
+
+        <canvas id="attendanceHostChart"></canvas>
+
+      </div>
+
+      <div class="chart-box">
+
+        <canvas id="avgAttendanceHostChart"></canvas>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <section class="section reveal">
+
+    <div class="section-header">
+      <h2>Top Scorer Goals</h2>
+    </div>
+
+    <div class="chart-box giant">
+
+      <canvas id="topScorerChart"></canvas>
+
+    </div>
+
+  </section>
+
+</div>
+
+<!-- =========================================
+     TOURNAMENT MODAL
+========================================== -->
+
+@if(showTimelineModal){
+
+  <div
+    class="modal-overlay"
+    (click)="closeTimelineModal()"
+  >
+
+    <div
+      class="modal-box large"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="modal-head">
+
+        <span>
+          🏆 FIFA World Cup Tournaments
+        </span>
+
+        <button
+          class="modal-close"
+          (click)="closeTimelineModal()"
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <div class="tournaments-grid">
+
+          @for(tournament of tournaments; track tournament.id){
+
+            <div
+              class="tournament-card"
+              (click)="openTournament(tournament)"
+            >
+
+              <div class="card-glow"></div>
+
+              <span class="card-year">
+                {{ tournament.year }}
+              </span>
+
+              <h3>
+                {{ tournament.host }}
+              </h3>
+
+              <div class="divider"></div>
+
+              <div class="mini-row">
+
+                <span class="label">
+                  Champion
+                </span>
+
+                <strong>
+                  {{ tournament.champion }}
+                </strong>
+
+              </div>
+
+              <div class="mini-row">
+
+                <span class="label">
+                  Runner Up
+                </span>
+
+                <strong>
+                  {{ tournament.runnerUp }}
+                </strong>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}
+
+<!-- =========================================
+     HIGHLIGHTS MODAL
+========================================== -->
+
+@if(showHighlightsModal){
+
+  <div
+    class="modal-overlay"
+    (click)="closeHighlightsModal()"
+  >
+
+    <div
+      class="modal-box"
+      (click)="$event.stopPropagation()"
+    >
+
+      <div class="modal-head">
+
+        <span>
+          📊 Tournament Highlights
+        </span>
+
+        <button
+          class="modal-close"
+          (click)="closeHighlightsModal()"
+        >
+          ✕
+        </button>
+
+      </div>
+
+      <div class="modal-body">
+
+        <div class="highlights-grid">
+
+          <div class="highlight-card cyan">
+
+            <span>
+              Highest Attendance
+            </span>
+
+            <h1>
+              {{ highestAttendance?.attendance }}
+            </h1>
+
+            <p>
+              {{ highestAttendance?.host }}
+              {{ highestAttendance?.year }}
+            </p>
+
+          </div>
+
+          <div class="highlight-card purple">
+
+            <span>
+              Highest Average Attendance
+            </span>
+
+            <h1>
+              {{ highestAvgAttendance?.attendanceAvg }}
+            </h1>
+
+            <p>
+              {{ highestAvgAttendance?.host }}
+              {{ highestAvgAttendance?.year }}
+            </p>
+
+          </div>
+
+          <div class="highlight-card red">
+
+            <span>
+              Best Top Scorer
+            </span>
+
+            <h1>
+              {{ bestTopScorer?.goals }}
+            </h1>
+
+            <p>
+              {{ bestTopScorer?.player }}
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}
