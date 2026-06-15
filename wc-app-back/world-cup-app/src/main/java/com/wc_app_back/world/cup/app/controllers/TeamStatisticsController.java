@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/stats")
+@CrossOrigin("*")
 public class TeamStatisticsController {
 
     private final TeamStatisticsService service;

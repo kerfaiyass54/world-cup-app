@@ -144,4 +144,8 @@ export class ApiService {
     );
   }
 
+ statsGetAll(){
+    return this.http.get<any>(`${this.base}/stats`);
+ }
+
 }
