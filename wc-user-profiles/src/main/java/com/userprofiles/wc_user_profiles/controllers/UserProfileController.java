@@ -30,7 +30,7 @@ public class UserProfileController {
 
     @PostMapping("/users/{userId}/profile")
     public ResponseEntity<Profile> saveProfile(
-            @PathVariable String userId,
+            @PathVariable Long userId,
             @RequestBody ProfileDTO profileDTO
     ) {
 
@@ -41,7 +41,7 @@ public class UserProfileController {
 
     @PutMapping("/profiles/{profileId}")
     public ResponseEntity<Profile> editProfile(
-            @PathVariable String profileId,
+            @PathVariable Long profileId,
             @RequestBody ProfileDTO profileDTO
     ) {
 

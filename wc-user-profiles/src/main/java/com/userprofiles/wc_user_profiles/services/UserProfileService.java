@@ -33,7 +33,7 @@ public class UserProfileService {
                 });
     }
 
-    public Profile saveProfile(String userId, ProfileDTO dto) {
+    public Profile saveProfile(Long userId, ProfileDTO dto) {
 
         Profile profile = new Profile();
         profile.setUserId(userId);
@@ -45,7 +45,7 @@ public class UserProfileService {
         return profileRepository.save(profile);
     }
 
-    public Profile editProfile(String profileId, ProfileDTO dto) {
+    public Profile editProfile(Long profileId, ProfileDTO dto) {
 
         Profile profile = profileRepository.findById(profileId)
                 .orElseThrow(() -> new RuntimeException("Profile not found"));
