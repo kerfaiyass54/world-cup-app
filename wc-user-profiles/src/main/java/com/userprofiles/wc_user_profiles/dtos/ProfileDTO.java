@@ -1,9 +1,6 @@
 package com.userprofiles.wc_user_profiles.dtos;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
@@ -19,6 +16,4 @@ public class ProfileDTO {
     private String description;
 
     private boolean living;
-
-    private String userId;
 }

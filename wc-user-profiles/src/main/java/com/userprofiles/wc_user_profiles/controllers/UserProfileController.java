@@ -6,26 +6,26 @@ import com.userprofiles.wc_user_profiles.dtos.UserDTO;
 import com.userprofiles.wc_user_profiles.entities.Profile;
 import com.userprofiles.wc_user_profiles.entities.User;
 import com.userprofiles.wc_user_profiles.services.UserProfileService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 @CrossOrigin("*")
+@RequiredArgsConstructor
 public class UserProfileController {
 
     private final UserProfileService userProfileService;
 
-    public UserProfileController(UserProfileService userProfileService) {
-        this.userProfileService = userProfileService;
-    }
-
     @PostMapping("/users")
-    public ResponseEntity<User> saveUser(@RequestBody UserDTO userDTO) {
+    public ResponseEntity<User> saveUser(
+            @RequestBody UserDTO userDTO
+    ) {
 
-        User user = userProfileService.saveUser(userDTO);
-
-        return ResponseEntity.ok(user);
+        return ResponseEntity.ok(
+                userProfileService.saveUser(userDTO)
+        );
     }
 
     @PostMapping("/users/{userId}/profile")
@@ -34,9 +34,12 @@ public class UserProfileController {
             @RequestBody ProfileDTO profileDTO
     ) {
 
-        Profile profile = userProfileService.saveProfile(userId, profileDTO);
-
-        return ResponseEntity.ok(profile);
+        return ResponseEntity.ok(
+                userProfileService.saveProfile(
+                        userId,
+                        profileDTO
+                )
+        );
     }
 
     @PutMapping("/profiles/{profileId}")
@@ -45,8 +48,33 @@ public class UserProfileController {
             @RequestBody ProfileDTO profileDTO
     ) {
 
-        Profile profile = userProfileService.editProfile(profileId, profileDTO);
+        return ResponseEntity.ok(
+                userProfileService.editProfile(
+                        profileId,
+                        profileDTO
+                )
+        );
+    }
 
-        return ResponseEntity.ok(profile);
+    @GetMapping("/users/profile-exists")
+    public ResponseEntity<Boolean> hasProfile(
+            @RequestParam String email
+    ) {
+
+        return ResponseEntity.ok(
+                userProfileService.hasProfile(email)
+        );
+    }
+
+
+
+    @GetMapping("/profiles/by-email")
+    public ResponseEntity<Profile> getProfileByEmail(
+            @RequestParam String email
+    ) {
+
+        return ResponseEntity.ok(
+                userProfileService.getProfileByEmail(email)
+        );
     }
 }
