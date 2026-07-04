@@ -28,15 +28,15 @@ public class UserProfileController {
         );
     }
 
-    @PostMapping("/users/{userId}/profile")
+    @PostMapping("/users/{email}/profile")
     public ResponseEntity<Profile> saveProfile(
-            @PathVariable Long userId,
+            @PathVariable String email,
             @RequestBody ProfileDTO profileDTO
     ) {
 
         return ResponseEntity.ok(
                 userProfileService.saveProfile(
-                        userId,
+                        email,
                         profileDTO
                 )
         );

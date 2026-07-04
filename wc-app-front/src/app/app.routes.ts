@@ -44,6 +44,18 @@ export const routes: Routes = [
   },
 
   {
+    path: 'profile-add',
+    loadComponent: () =>
+      import('./pages/profile-creation/profile-creation')
+        .then(m => m.ProfileCreation)
+  },{
+    path: 'profile-check',
+    loadComponent: () =>
+      import('./pages/user-profile/user-profile')
+        .then(m => m.UserProfile)
+  },
+
+  {
     path: '**',
     redirectTo: 'dashboard'
   }

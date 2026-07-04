@@ -31,12 +31,12 @@ public class UserProfileService {
     }
 
     public Profile saveProfile(
-            Long userId,
+            String email,
             ProfileDTO profileDTO
     ) {
 
         User user = userRepository
-                .findById(userId)
+                .findByEmail(email)
                 .orElseThrow(() ->
                         new RuntimeException(
                                 "User not found"

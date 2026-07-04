@@ -1,1 +1,82 @@
-<p>user-profile works!</p>
+<div class="profile-page">
+
+  <div class="profile-card">
+
+    @if (loading()) {
+
+      <div class="loading">
+
+        Loading profile...
+
+      </div>
+
+    }
+
+    @else if (error()) {
+
+      <div class="error-message">
+
+        {{ error() }}
+
+      </div>
+
+    }
+
+    @else if (profile()) {
+
+      <h1>
+
+        {{ profile()!.name }}
+
+      </h1>
+
+      <div class="profile-info">
+
+        <div class="row">
+
+          <span class="label">
+            Nationality
+          </span>
+
+          <span class="value">
+            {{ profile()!.nationality }}
+          </span>
+
+        </div>
+
+        <div class="row">
+
+          <span class="label">
+            Status
+          </span>
+
+          <span class="value">
+
+            {{ profile()!.living
+            ? 'Living'
+            : 'Deceased' }}
+
+          </span>
+
+        </div>
+
+        <div class="row description">
+
+          <span class="label">
+            Description
+          </span>
+
+          <p>
+            {{ profile()!.description }}
+          </p>
+
+        </div>
+
+      </div>
+
+
+    }
+
+  </div>
+
+</div>

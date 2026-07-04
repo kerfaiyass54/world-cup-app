@@ -48,7 +48,7 @@ export class UserProfileService {
   }
 
   saveProfile(
-    userId: number,
+    userId: any,
     profile: ProfileDTO
   ): Observable<Profile> {
 

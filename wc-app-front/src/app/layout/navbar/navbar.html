@@ -1,6 +1,9 @@
 <nav class="wc-navbar">
 
-  <div class="wc-logo" routerLink="/home-page">
+  <div
+    class="wc-logo"
+    routerLink="/home-page"
+  >
     ⚽ WorldCup AI
   </div>
 
@@ -33,6 +36,7 @@
     >
       Exhibition
     </a>
+
     <div class="wc-user">
 
       <button
@@ -50,12 +54,25 @@
 
         <div class="wc-dropdown">
 
-          <a
-            routerLink="/profile"
-            class="dropdown-item"
-          >
-            Edit Profile
-          </a>
+          @if (hasProfile()) {
+
+            <a
+              routerLink="/profile-check"
+              class="dropdown-item"
+            >
+              Edit Profile
+            </a>
+
+          } @else {
+
+            <a
+              routerLink="/profile-add"
+              class="dropdown-item"
+            >
+              Create Profile
+            </a>
+
+          }
 
           <button
             class="dropdown-item logout"

@@ -1,0 +1,95 @@
+<div class="profile-page">
+
+  <div class="profile-card">
+
+    <h1>Create Your World Cup Profile</h1>
+
+    <p class="subtitle">
+      Tell the community who you are.
+    </p>
+
+    <div class="form-group">
+
+      <label>Name</label>
+
+      <input
+        type="text"
+        [value]="profile().name"
+        (input)="updateField('name', $event)"
+        placeholder="Enter your name"
+      />
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Nationality</label>
+
+      <input
+        type="text"
+        [value]="profile().nationality"
+        (input)="updateField('nationality', $event)"
+        placeholder="Enter your nationality"
+      />
+
+    </div>
+
+    <div class="form-group">
+
+      <label>Description</label>
+
+      <textarea
+        rows="6"
+        [value]="profile().description"
+        (input)="updateField('description', $event)"
+        placeholder="Tell us something about yourself..."
+      ></textarea>
+
+    </div>
+
+    <div class="living-row">
+
+      <input
+        type="checkbox"
+        id="living"
+        [checked]="profile().living"
+        (change)="updateField('living', $event)"
+      />
+
+      <label for="living">
+        Living
+      </label>
+
+    </div>
+
+    @if(error()) {
+
+      <div class="error-message">
+
+        {{ error() }}
+
+      </div>
+
+    }
+
+    <button
+      class="save-btn"
+      [disabled]="loading()"
+      (click)="createProfile()"
+    >
+
+      @if(loading()) {
+
+        Saving...
+
+      } @else {
+
+        Create Profile
+
+      }
+
+    </button>
+
+  </div>
+
+</div>
