@@ -1,22 +1,34 @@
 package com.userprofiles.wc_user_profiles.entities;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import lombok.Setter;
 
-
-@Data
+@Entity
+@Table(
+        name = "users",
+        indexes = {
+                @Index(name = "idx_user_email", columnList = "email", unique = true),
+                @Index(name = "idx_user_profile_id", columnList = "profile_id")
+        }
+)
+@Getter
+@Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "users")
 public class User {
 
     @Id
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Column(nullable = false, unique = true, length = 255)
     private String email;
 
+    @Column(name = "profile_id", nullable = false, length = 100)
     private String profileId;
 }
