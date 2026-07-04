@@ -1,9 +1,9 @@
 export interface ScoringCorr {
-  metric: string;
+  metric: any;
   value: number;
 }
 
 export interface ScoringByEra {
-  era: string;
+  era: any;
   avgGoalsPerGame: number;
 }

@@ -1,10 +1,10 @@
 export interface Champion {
-  country: string;
+  country: any;
   wins: number;
 }
 
 export interface ChampionEra {
-  era: string;
+  era: any;
   maxWins: number;
-  topCountries: string[];
+  topCountries: any[];
 }

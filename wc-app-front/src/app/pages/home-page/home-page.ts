@@ -1,9 +1,18 @@
 import {
   Component,
   AfterViewInit,
-  ElementRef
+  OnInit,
+  ElementRef,
+  ChangeDetectorRef,
+  inject
 } from '@angular/core';
+
 import { RouterLink } from '@angular/router';
+
+import {
+  UserProfileService,
+  UserDTO
+} from '../../user-profile.service';
 
 @Component({
   selector: 'app-home-page',
@@ -11,11 +20,24 @@ import { RouterLink } from '@angular/router';
   styleUrl: './home-page.css',
   imports: [RouterLink],
 })
-export class HomePage implements AfterViewInit {
+export class HomePage implements OnInit, AfterViewInit {
+
+  private userProfileService = inject(UserProfileService);
+  private cdr = inject(ChangeDetectorRef);
+
+  userCreated = false;
+
   constructor(private el: ElementRef) {}
 
-  ngAfterViewInit() {
-    const sections = this.el.nativeElement.querySelectorAll('.reveal');
+  ngOnInit(): void {
+
+
+  }
+
+  ngAfterViewInit(): void {
+
+    const sections =
+      this.el.nativeElement.querySelectorAll('.reveal');
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -27,9 +49,11 @@ export class HomePage implements AfterViewInit {
       },
       {
         threshold: 0.6,
-      },
+      }
     );
 
-    sections.forEach((section: Element) => observer.observe(section));
+    sections.forEach(
+      (section: Element) => observer.observe(section)
+    );
   }
 }

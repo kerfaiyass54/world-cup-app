@@ -80,10 +80,10 @@ export class TeamsInfos
   }
 
   createChart(
-    id: string,
-    label: string,
+    id: any,
+    label: any,
     data: any[],
-    key: string
+    key: any
   ) {
 
     const ctx =

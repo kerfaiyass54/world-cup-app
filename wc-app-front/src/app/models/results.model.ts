@@ -1,13 +1,13 @@
 export interface RunnerUp {
-  country: string;
+  country: any;
   runnerupCount: number;
 }
 
 export interface RunnerUpNoTitle {
-  country: string;
+  country: any;
 }
 
 export interface ThirdPlace {
-  country: string;
+  country: any;
   thirdplaceCount: number;
 }

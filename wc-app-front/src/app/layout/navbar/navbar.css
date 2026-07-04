@@ -1,5 +1,85 @@
 /* NAVBAR BASE */
+.wc-user {
 
+  position: relative;
+
+}
+
+.wc-user-btn {
+
+  background: transparent;
+
+  border: none;
+
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+}
+
+.wc-dropdown {
+
+  position: absolute;
+
+  top: 45px;
+
+  right: 0;
+
+  min-width: 200px;
+
+  background: rgba(20,20,35,.98);
+
+  border-radius: 12px;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.4);
+
+}
+
+.dropdown-item {
+
+  display: block;
+
+  width: 100%;
+
+  padding: 14px 18px;
+
+  text-decoration: none;
+
+  color: white;
+
+  border: none;
+
+  background: transparent;
+
+  text-align: left;
+
+  cursor: pointer;
+
+}
+
+.dropdown-item:hover {
+
+  background:
+    rgba(255,255,255,.08);
+
+}
+
+.logout {
+
+  color: #ff6b6b;
+
+}
 .wc-navbar {
 
   position: sticky;

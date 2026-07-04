@@ -11,20 +11,20 @@ import { CommonModule } from '@angular/common'
 export class WcInfos implements AfterViewInit {
 
   /* ── Modal state ─────────────────────────────── */
-  activeModal: string | null = null
+  activeModal: any | null = null
 
-  openModal(name: string)  { this.activeModal = name  }
+  openModal(name: any)  { this.activeModal = name  }
   closeModal()             { this.activeModal = null  }
 
   // Close on Escape key
   @HostListener('document:keydown.escape')
   onEscape() { this.closeModal() }
 
-  getContinentEmoji(name: string): string {
+  getContinentEmoji(name: any): any {
     return this.continents.find(c => c.name === name)?.emoji ?? ''
   }
 
-  getTeams(name: string): string[] {
+  getTeams(name: any): any[] {
     return this.continents.find(c => c.name === name)?.teams ?? []
   }
 

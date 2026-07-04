@@ -1,9 +1,9 @@
 export interface Top3Stats {
-  country: string;
+  country: any;
   appearances: number;
 }
 
 export interface Top3Consistency {
-  country: string;
+  country: any;
   consistencyScore: number;
 }

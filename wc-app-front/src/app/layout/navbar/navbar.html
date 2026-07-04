@@ -33,6 +33,42 @@
     >
       Exhibition
     </a>
+    <div class="wc-user">
+
+      <button
+        class="wc-user-btn"
+        (click)="toggleProfileMenu()"
+      >
+
+        {{ userEmail() }}
+
+        ▼
+
+      </button>
+
+      @if (profileMenuOpen()) {
+
+        <div class="wc-dropdown">
+
+          <a
+            routerLink="/profile"
+            class="dropdown-item"
+          >
+            Edit Profile
+          </a>
+
+          <button
+            class="dropdown-item logout"
+            (click)="logout()"
+          >
+            Logout
+          </button>
+
+        </div>
+
+      }
+
+    </div>
 
   </div>
 

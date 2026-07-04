@@ -1,14 +1,34 @@
-import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners
+} from '@angular/core';
+
 import { provideRouter } from '@angular/router';
 
-import { routes } from './app.routes';
+import {
+  provideHttpClient,
+  withInterceptors
+} from '@angular/common/http';
+
 import { provideKeycloak } from 'keycloak-angular';
-import { keycloakConfig } from './keycloak.config';
+
+import { routes } from './app.routes';
+import { userEmailInterceptor } from '../src/app/interceptors/user-email.interceptor';
+
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
+
     provideRouter(routes),
+
+    provideHttpClient(
+      withInterceptors([
+        userEmailInterceptor
+      ])
+    ),
+
     provideKeycloak({
       config: {
         url: 'http://localhost:8080',

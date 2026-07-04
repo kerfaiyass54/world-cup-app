@@ -13,7 +13,7 @@ import Keycloak from 'keycloak-js';
 })
 export class App implements OnInit {
 
-  currentUserId = '';
+  currentUserId = 0;
 
   constructor(
     private userProfileService: UserProfileService,
@@ -31,7 +31,7 @@ export class App implements OnInit {
 
         this.currentUserId = user.id;
 
-        localStorage.setItem('userId', user.id);
+        sessionStorage.setItem('email', email);
 
         console.log('User saved:', user);
       });

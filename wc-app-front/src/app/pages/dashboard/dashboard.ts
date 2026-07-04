@@ -17,7 +17,7 @@ import { GeneralInfo } from './general-info/general-info';
 export class Dashboard {
   activeTab = signal('wc');
 
-  select(tab: string) {
+  select(tab: any) {
     this.activeTab.set(tab);
   }
 }

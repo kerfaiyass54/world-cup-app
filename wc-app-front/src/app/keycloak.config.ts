@@ -1,13 +1,7 @@
-import { KeycloakOptions } from 'keycloak-angular';
+import Keycloak from 'keycloak-js';
 
-export const keycloakConfig: KeycloakOptions = {
-  config: {
-    url: 'http://localhost:8080',
-    realm: 'myrealm',
-    clientId: 'angular-app'
-  },
-  initOptions: {
-    onLoad: 'login-required',
-    checkLoginIframe: false
-  }
-};
+export const keycloak = new Keycloak({
+  url: 'http://localhost:8080',
+  realm: 'world-cup',
+  clientId: 'world-cup-client'
+});
