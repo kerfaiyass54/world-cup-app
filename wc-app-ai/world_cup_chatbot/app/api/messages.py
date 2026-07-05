@@ -10,12 +10,14 @@ service = MessageService()
 
 
 @router.get(
-    "/conversations/{conversation_id}/messages"
+    "/messages/{conversation_id}"
 )
 async def get_messages(
     conversation_id: str
 ):
 
-    return await service.get_history(
-        conversation_id
+    return await (
+        service.get_history(
+            conversation_id
+        )
     )

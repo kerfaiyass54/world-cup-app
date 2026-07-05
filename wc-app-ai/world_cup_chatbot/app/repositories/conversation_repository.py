@@ -2,6 +2,9 @@ from datetime import datetime
 
 from app.database.mongodb import db
 
+from bson import ObjectId
+
+
 from app.utils.mongo_mapper import (
     conversation_to_dict
 )
@@ -72,3 +75,20 @@ class ConversationRepository:
             )
 
         return conversations
+
+    async def delete(
+            self,
+            conversation_id: str
+    ):
+        result = await self.collection.delete_one(
+            {
+                "_id": ObjectId(
+                    conversation_id
+                )
+            }
+        )
+
+        return {
+            "deleted":
+                result.deleted_count > 0
+        }

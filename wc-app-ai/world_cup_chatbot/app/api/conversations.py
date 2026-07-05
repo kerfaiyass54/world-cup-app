@@ -20,20 +20,24 @@ service = ConversationService()
 async def create_conversation(
     request: ConversationCreate
 ):
-
     return await service.create_conversation(
         request.user_email
     )
 
-@router.get(
-    "/{user_email}"
-)
+
+@router.get("/{user_email}")
 async def get_conversations(
     user_email: str
 ):
+    return await service.get_conversations(
+        user_email
+    )
 
-    return await (
-        service.get_conversations(
-            user_email
-        )
+
+@router.delete("/{conversation_id}")
+async def delete_conversation(
+    conversation_id: str
+):
+    return await service.delete_conversation(
+        conversation_id
     )

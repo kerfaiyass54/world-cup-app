@@ -21,6 +21,16 @@ class ChatService:
             MessageRepository()
         )
 
+    async def ask(
+        self,
+        conversation_id: str,
+        message: str
+    ):
+        return await self.send_message(
+            conversation_id,
+            message
+        )
+
     async def send_message(
         self,
         conversation_id: str,

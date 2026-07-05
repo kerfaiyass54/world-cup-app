@@ -1,63 +1,49 @@
-from bson import ObjectId
-
 from app.database.mongodb import db
-from bson import ObjectId
 
 
 class MessageRepository:
 
-    def __init__(self):
-
-        self.collection = db.messages
-
     async def create(
         self,
-        message_data: dict
+        data: dict
     ):
-
-        result = await self.collection.insert_one(
-            message_data
+        result = await (
+            db.messages.insert_one(data)
         )
 
-        message_data["_id"] = str(
+        return str(
             result.inserted_id
         )
 
-        return message_data
-
-    async def get_by_conversation(
+    async def find_by_conversation(
         self,
         conversation_id: str
     ):
 
-        cursor = self.collection.find(
-            {
-                "conversation_id":
+        cursor = (
+            db.messages
+            .find(
+                {
+                    "conversation_id":
                     conversation_id
-            }
-        ).sort(
-            "created_at",
-            1
+                }
+            )
+            .sort(
+                "created_at",
+                1
+            )
         )
 
-        return await cursor.to_list(
-            length=1000
-        )
+        messages = []
 
-    async def find_by_conversation(
-            self,
-            conversation_id: str
-    ):
-        cursor = self.collection.find(
-            {
-                "conversation_id":
-                    conversation_id
-            }
-        ).sort(
-            "created_at",
-            1
-        )
+        async for document in cursor:
 
-        return await cursor.to_list(
-            length=1000
-        )
+            document["_id"] = str(
+                document["_id"]
+            )
+
+            messages.append(
+                document
+            )
+
+        return messages

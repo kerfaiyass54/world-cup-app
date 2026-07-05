@@ -12,7 +12,7 @@ class GeminiService:
         )
 
         self.model = genai.GenerativeModel(
-            "gemini-1.5-flash"
+            "gemini-2.5-flash"
         )
 
     async def ask(

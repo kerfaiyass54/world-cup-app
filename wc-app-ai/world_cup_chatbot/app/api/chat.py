@@ -22,11 +22,11 @@ async def chat(
     request: ChatRequest
 ):
 
-    answer = await chat_service.ask(
+    result = await chat_service.send_message(
         request.conversation_id,
         request.message
     )
 
     return ChatResponse(
-        response=answer
+        response=result["response"]
     )

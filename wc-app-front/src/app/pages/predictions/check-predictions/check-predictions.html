@@ -1,0 +1,42 @@
+<h1>My Prediction</h1>
+
+@if(loading){
+
+  <p>Loading...</p>
+
+}
+
+@if(!loading && prediction){
+
+  <div class="prediction-card">
+
+    <p>
+      <strong>Email:</strong>
+      {{ prediction.email }}
+    </p>
+
+    <p>
+      <strong>Champion:</strong>
+      {{ prediction.champion }}
+    </p>
+
+    <p>
+      <strong>Third Place:</strong>
+      {{ prediction.thirdPlace }}
+    </p>
+
+  </div>
+
+}
+
+@if(!loading && !prediction){
+
+  <p>No prediction found.</p>
+
+}
+<button
+  class="new-prediction-btn"
+  routerLink="/add-predictions"
+>
+  ⚽ Create New Prediction
+</button>

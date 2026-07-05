@@ -25,6 +25,14 @@ class ConversationService:
             )
         )
 
+    async def delete_conversation(
+            self,
+            conversation_id: str
+    ):
+        return await self.repository.delete(
+            conversation_id
+        )
+
     async def create_conversation(
         self,
         user_email: str

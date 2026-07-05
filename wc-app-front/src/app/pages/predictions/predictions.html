@@ -1,1 +1,733 @@
-<p>predictions works!</p>
+<div class="container">
+
+  <h1>🏆 2026 FIFA World Cup Predictor</h1>
+
+  <!-- STEPPER -->
+
+  <div class="stepper">
+
+    @for(step of steps; track step; let i = $index){
+
+      <div
+        class="step"
+        [class.active]="currentStep === i"
+      >
+
+        <div class="step-number">
+          {{i + 1}}
+        </div>
+
+        <div class="step-label">
+          {{step}}
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- GROUP STAGE -->
+  <!-- ========================= -->
+
+  @if(currentStep === 0){
+
+    <div class="group-tabs">
+
+      @for(group of groups; track group.name; let i = $index){
+
+        <button
+          class="group-tab"
+          [class.active]="selectedGroup === i"
+          (click)="selectGroup(i)"
+        >
+          Group {{group.name}}
+        </button>
+
+      }
+
+    </div>
+
+    <div class="group-card">
+
+      <h2>
+        Group {{groups[selectedGroup].name}}
+      </h2>
+
+      @for(
+        match of groups[selectedGroup].matches;
+        track $index
+        ){
+
+        <div class="match-card">
+
+          <div class="team-name">
+
+  <span
+    class="fi fi-{{flagMap[match.home]}} flag-icon">
+  </span>
+
+            {{match.home}}
+
+          </div>
+
+          <div class="score-box">
+
+            <input
+              type="number"
+              [(ngModel)]="match.homeScore"
+            >
+
+            <span>-</span>
+
+            <input
+              type="number"
+              [(ngModel)]="match.awayScore"
+            >
+
+          </div>
+
+          <div class="team-name right">
+
+  <span
+    class="fi fi-{{flagMap[match.away]}} flag-icon">
+  </span>
+
+            {{match.away}}
+
+          </div>
+
+        </div>
+
+      }
+
+      <div class="standings">
+
+        <h3>Standings</h3>
+
+        <table>
+
+          <thead>
+
+          <tr>
+            <th>#</th>
+            <th>Team</th>
+            <th>P</th>
+            <th>Pts</th>
+            <th>GD</th>
+            <th>GF</th>
+          </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for(
+              team of getStandings(groups[selectedGroup]);
+              track $index;
+              let pos = $index
+              ){
+
+              <tr>
+
+                <td>{{pos + 1}}</td>
+
+                <td class="team-cell">
+
+  <span
+    class="fi fi-{{flagMap[team.team]}} flag-icon">
+  </span>
+
+                  {{team.team}}
+
+                </td>
+
+                <td>{{team.played}}</td>
+
+                <td>{{team.pts}}</td>
+
+                <td>{{team.gd}}</td>
+
+                <td>{{team.gf}}</td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    </div>
+
+  }
+
+  <!-- ========================= -->
+  <!-- ROUND OF 32 -->
+  <!-- ========================= -->
+
+  @if(currentStep === 1){
+
+    <div class="round-container">
+
+      <h2>
+        Round of 32
+      </h2>
+
+      <div class="round-grid">
+
+        @for(
+          match of round32;
+          track match.id
+          ){
+
+          <div class="knockout-card">
+
+            <div class="match-id">
+              Match {{match.id}}
+            </div>
+
+            <div class="ko-team">
+
+              <span class="ko-team-name">
+
+  <span
+    class="fi fi-{{flagMap[match.homeTeam]}} flag-icon">
+  </span>
+
+                {{match.homeTeam}}
+
+</span>
+
+              <input
+                type="number"
+                [(ngModel)]="match.homeScore"
+              >
+
+            </div>
+
+            <div class="ko-team">
+
+              <span class="ko-team-name">
+
+  <span
+    class="fi fi-{{flagMap[match.awayTeam]}} flag-icon">
+  </span>
+
+                {{match.awayTeam}}
+
+</span>
+
+              <input
+                type="number"
+                [(ngModel)]="match.awayScore"
+              >
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+  <!-- ========================= -->
+  <!-- ROUND OF 16 -->
+  <!-- ========================= -->
+
+  @if(currentStep === 2){
+
+    <div class="round-container">
+
+      <h2>
+        Round of 16
+      </h2>
+
+      <div class="round-grid">
+
+        @for(
+          match of round16;
+          track match.id
+          ){
+
+          <div class="knockout-card">
+
+            <div class="match-id">
+              Match {{match.id}}
+            </div>
+
+            <div class="ko-team">
+
+            <span class="ko-team-name">
+
+              <span
+                class="fi fi-{{flagMap[match.homeTeam]}} flag-icon">
+              </span>
+
+              {{match.homeTeam}}
+
+            </span>
+
+              <input
+                type="number"
+                [(ngModel)]="match.homeScore"
+              >
+
+            </div>
+
+            <div class="ko-team">
+
+            <span class="ko-team-name">
+
+              <span
+                class="fi fi-{{flagMap[match.awayTeam]}} flag-icon">
+              </span>
+
+              {{match.awayTeam}}
+
+            </span>
+
+              <input
+                type="number"
+                [(ngModel)]="match.awayScore"
+              >
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+  <!-- ========================= -->
+  <!-- QUARTERFINALS -->
+  <!-- ========================= -->
+
+  @if(currentStep === 3){
+
+    <div class="round-container">
+
+      <h2>Quarter Finals</h2>
+
+      <div class="round-grid">
+
+        @for(match of quarterFinals; track match.id){
+
+          <div class="knockout-card">
+
+            <div class="match-id">
+              Match {{match.id}}
+            </div>
+
+            <div class="ko-team">
+
+          <span class="ko-team-name">
+            <span class="fi fi-{{flagMap[match.homeTeam]}} flag-icon"></span>
+            {{match.homeTeam}}
+          </span>
+
+              <input
+                type="number"
+                [(ngModel)]="match.homeScore"
+              >
+
+            </div>
+
+            <div class="ko-team">
+
+          <span class="ko-team-name">
+            <span class="fi fi-{{flagMap[match.awayTeam]}} flag-icon"></span>
+            {{match.awayTeam}}
+          </span>
+
+              <input
+                type="number"
+                [(ngModel)]="match.awayScore"
+              >
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+  <!-- ========================= -->
+  <!-- SEMIFINALS -->
+  <!-- ========================= -->
+
+  @if(currentStep === 4){
+
+    <div class="round-container">
+
+      <h2>Semi Finals</h2>
+
+      <div class="round-grid">
+
+        @for(match of semiFinals; track match.id){
+
+          <div class="knockout-card">
+
+            <div class="match-id">
+              Match {{match.id}}
+            </div>
+
+            <div class="ko-team">
+
+          <span class="ko-team-name">
+            <span class="fi fi-{{flagMap[match.homeTeam]}} flag-icon"></span>
+            {{match.homeTeam}}
+          </span>
+
+              <input
+                type="number"
+                [(ngModel)]="match.homeScore"
+              >
+
+            </div>
+
+            <div class="ko-team">
+
+          <span class="ko-team-name">
+            <span class="fi fi-{{flagMap[match.awayTeam]}} flag-icon"></span>
+            {{match.awayTeam}}
+          </span>
+
+              <input
+                type="number"
+                [(ngModel)]="match.awayScore"
+              >
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+  <!-- ========================= -->
+  <!-- FINAL -->
+  <!-- ========================= -->
+
+  @if(currentStep === 5){
+
+    <div class="round-container">
+
+      <h2>Final & Third Place</h2>
+
+      <div class="round-grid">
+
+        @for(match of thirdPlace; track match.id){
+
+          <div class="knockout-card">
+
+            <div class="match-id">
+              Third Place Match 103
+            </div>
+
+            <div class="ko-team">
+
+          <span class="ko-team-name">
+            <span class="fi fi-{{flagMap[match.homeTeam]}} flag-icon"></span>
+            {{match.homeTeam}}
+          </span>
+
+              <input
+                type="number"
+                [(ngModel)]="match.homeScore"
+              >
+
+            </div>
+
+            <div class="ko-team">
+
+          <span class="ko-team-name">
+            <span class="fi fi-{{flagMap[match.awayTeam]}} flag-icon"></span>
+            {{match.awayTeam}}
+          </span>
+
+              <input
+                type="number"
+                [(ngModel)]="match.awayScore"
+              >
+
+            </div>
+
+          </div>
+
+        }
+
+        @for(match of finalMatch; track match.id){
+
+          <div class="knockout-card final-card">
+
+            <div class="match-id">
+              World Cup Final 104
+            </div>
+
+            <div class="ko-team">
+
+          <span class="ko-team-name">
+            <span class="fi fi-{{flagMap[match.homeTeam]}} flag-icon"></span>
+            {{match.homeTeam}}
+          </span>
+
+              <input
+                type="number"
+                [(ngModel)]="match.homeScore"
+              >
+
+            </div>
+
+            <div class="ko-team">
+
+          <span class="ko-team-name">
+            <span class="fi fi-{{flagMap[match.awayTeam]}} flag-icon"></span>
+            {{match.awayTeam}}
+          </span>
+
+              <input
+                type="number"
+                [(ngModel)]="match.awayScore"
+              >
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+  <!-- ========================= -->
+  <!-- CHAMPION -->
+  <!-- ========================= -->
+
+  @if(currentStep === 6){
+
+    <div class="champion-screen">
+
+      <div class="trophy">
+        🏆
+      </div>
+
+      <h2>World Cup Champion</h2>
+
+      <div class="champion-name">
+
+    <span
+      class="fi fi-{{flagMap[champion]}} flag-icon">
+    </span>
+
+        {{champion}}
+
+      </div>
+
+      <div class="podium">
+
+        <div>
+          🥈 {{runnerUp}}
+        </div>
+
+        <div>
+          🥉 {{thirdPlaceWinner}}
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="bracket-container">
+
+      <h2>
+        Tournament Bracket
+      </h2>
+
+      <div class="bracket">
+
+        <!-- ROUND OF 16 -->
+
+        <div class="round">
+
+          <h3>Round of 16</h3>
+
+          @for(match of round16; track match.id){
+
+            <div class="bracket-match">
+
+              <div>
+                {{match.homeTeam}}
+              </div>
+
+              <div>
+                {{match.awayTeam}}
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+        <!-- QUARTERS -->
+
+        <div class="round">
+
+          <h3>Quarter Finals</h3>
+
+          @for(match of quarterFinals; track match.id){
+
+            <div class="bracket-match">
+
+              <div>
+                {{match.homeTeam}}
+              </div>
+
+              <div>
+                {{match.awayTeam}}
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+        <!-- SEMIS -->
+
+        <div class="round">
+
+          <h3>Semi Finals</h3>
+
+          @for(match of semiFinals; track match.id){
+
+            <div class="bracket-match">
+
+              <div>
+                {{match.homeTeam}}
+              </div>
+
+              <div>
+                {{match.awayTeam}}
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+        <!-- FINAL -->
+
+        <div class="round">
+
+          <h3>Final</h3>
+
+          @for(match of finalMatch; track match.id){
+
+            <div class="bracket-match final-bracket">
+
+              <div>
+                {{match.homeTeam}}
+              </div>
+
+              <div>
+                {{match.awayTeam}}
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+  <!-- NAVIGATION -->
+
+  <div class="nav-buttons">
+
+    <button
+      (click)="previousStep()"
+      [disabled]="currentStep === 0"
+    >
+      ← Previous
+    </button>
+
+    <button
+      (click)="nextStep()"
+      [disabled]="currentStep === 6"
+    >
+      Next →
+    </button>
+
+  </div>
+
+  <div class="export-buttons">
+
+    <button
+      class="export-btn"
+      (click)="exportJson()"
+    >
+      Export JSON
+    </button>
+
+    <button
+      class="export-btn"
+      (click)="exportCsv()"
+    >
+      Export CSV
+    </button>
+
+    <div class="save-panel">
+
+      <input
+        type="email"
+        placeholder="Email address"
+        [(ngModel)]="email"
+      />
+
+      <button
+        class="export-btn"
+        (click)="savePrediction()"
+      >
+        Save Prediction
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+

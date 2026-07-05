@@ -1,0 +1,45 @@
+type Prediction {
+
+    id: ID
+
+    email: String
+
+    champion: String
+
+    thirdPlace: String
+
+    createdAt: String
+
+    groupsJson: String
+
+    bracketJson: String
+}
+
+input PredictionRequest {
+
+    email: String!
+
+    champion: String!
+
+    thirdPlace: String!
+
+    groupsJson: String!
+
+    bracketJson: String!
+}
+
+type Query {
+
+    predictions: [Prediction]
+
+    predictionByEmail(
+        email: String!
+    ): Prediction
+}
+
+type Mutation {
+
+    savePrediction(
+        request: PredictionRequest!
+    ): Prediction
+}

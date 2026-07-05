@@ -1,1 +1,179 @@
-<p>ai-chat works!</p>
+<div class="chat-container">
+
+  <aside class="sidebar">
+
+    <div class="sidebar-header">
+
+      <h2>⚽ AI Sessions</h2>
+
+      <button
+        class="new-btn"
+        (click)="createConversation()"
+      >
+        + New
+      </button>
+
+    </div>
+
+    @if (loading()) {
+
+      <div class="loading-state">
+
+        Loading conversations...
+
+      </div>
+
+    }
+
+    @for (
+      conversation of conversations();
+      track conversation.id
+      ) {
+
+      <div
+        class="conversation-item"
+        [class.active]="
+          selectedConversation()?.id ===
+          conversation.id
+        "
+        (click)="selectConversation(conversation)"
+      >
+
+        <span>
+          {{ conversation.title }}
+        </span>
+
+        <button
+          class="delete-btn"
+          (click)="
+            deleteConversation(conversation);
+            $event.stopPropagation()
+          "
+        >
+          ✕
+        </button>
+
+      </div>
+
+    }
+
+  </aside>
+
+  <section class="chat-panel">
+
+    <div class="chat-header">
+
+      <div class="status-dot"></div>
+
+      <div>
+
+        <h3>World Cup AI Analyst</h3>
+
+        <span>
+          Powered by Gemini + Agents
+        </span>
+
+      </div>
+
+    </div>
+
+    <div
+      class="messages"
+      #messagesContainer
+    >
+
+      @if (messages().length === 0) {
+
+        <div class="welcome">
+
+          <h2>⚽ World Cup AI</h2>
+
+          <p>
+            Ask me about players,
+            teams, tournaments,
+            statistics and history.
+          </p>
+
+        </div>
+
+      }
+
+      @for (
+        message of messages();
+        track $index
+        ) {
+
+        <div
+          class="message-wrapper"
+          [class.user-wrapper]="
+            message.role === 'user'
+          "
+        >
+
+          <div
+            class="message"
+            [class.user]="
+              message.role === 'user'
+            "
+            [class.assistant]="
+              message.role === 'assistant'
+            "
+          >
+
+            {{ message.content }}
+
+          </div>
+
+        </div>
+
+      }
+
+      @if (sending()) {
+
+        <div class="message-wrapper">
+
+          <div class="message assistant typing">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+    <div class="chat-input">
+
+      <textarea
+        rows="1"
+        [ngModel]="prompt()"
+        (ngModelChange)="prompt.set($event)"
+        placeholder="Ask about World Cups..."
+      >
+      </textarea>
+
+      <button
+        class="send-btn"
+        [disabled]="sending()"
+        (click)="sendMessage()"
+      >
+
+        @if (!sending()) {
+          Send
+        }
+
+        @if (sending()) {
+          ...
+        }
+
+      </button>
+
+    </div>
+
+  </section>
+
+</div>

@@ -20,13 +20,18 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./pages/ai-chat/ai-chat')
         .then(m => m.AiChat)
+  },{
+    path: 'add-predictions',
+    loadComponent: () =>
+      import('./pages/predictions/predictions')
+        .then(m => m.Predictions)
   },
 
   {
     path: 'predictions',
     loadComponent: () =>
-      import('./pages/predictions/predictions')
-        .then(m => m.Predictions)
+      import('./pages/predictions/check-predictions/check-predictions')
+        .then(m => m.CheckPredictions)
   },
 
   {
