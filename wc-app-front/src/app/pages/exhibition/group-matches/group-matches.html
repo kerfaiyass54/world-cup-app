@@ -1,0 +1,159 @@
+<div class="matches-page">
+
+  <div class="glow glow-left"></div>
+  <div class="glow glow-right"></div>
+
+  <div class="header">
+
+    <button
+      class="back-btn"
+      (click)="goBack()">
+
+      ← Back
+
+    </button>
+
+    <div class="title-section">
+
+      <h1>
+        Group Matches
+      </h1>
+
+      <p>
+        Select any match and launch the simulation
+      </p>
+
+    </div>
+
+  </div>
+
+  @if(loading){
+
+    <div class="loading-container">
+
+      <div class="loader"></div>
+
+      <h2>
+        Loading Matches...
+      </h2>
+
+    </div>
+
+  }
+
+  @if(!loading){
+
+    <div class="matches-grid">
+
+      @for(
+        match of matches;
+        track match.id
+        ){
+
+        <div class="match-card">
+
+          <div class="match-glow"></div>
+
+          <div class="vs-section">
+
+            <div class="team">
+
+              <img
+                [src]="getFlag(match.teamHomeId)"
+                alt="flag">
+
+              <h3>
+                {{
+                  getTeamName(
+                    match.teamHomeId
+                  )
+                }}
+              </h3>
+
+              <div class="ability">
+
+                ⭐
+                {{
+                  getTeam(
+                    match.teamHomeId
+                  )?.ability
+                }}
+
+              </div>
+
+            </div>
+
+            <div class="vs">
+
+              VS
+
+            </div>
+
+            <div class="team">
+
+              <img
+                [src]="getFlag(match.teamAwayId)"
+                alt="flag">
+
+              <h3>
+                {{
+                  getTeamName(
+                    match.teamAwayId
+                  )
+                }}
+              </h3>
+
+              <div class="ability">
+
+                ⭐
+                {{
+                  getTeam(
+                    match.teamAwayId
+                  )?.ability
+                }}
+
+              </div>
+
+            </div>
+
+          </div>
+
+          @if(match.played){
+
+            <div class="score">
+
+              {{match.goalsHome}}
+              -
+              {{match.goalsAway}}
+
+            </div>
+
+            <div class="played-badge">
+
+              Completed
+
+            </div>
+
+          }
+
+          @if(!match.played){
+
+            <button
+              class="simulate-btn"
+              (click)="openMatch(match)">
+
+              ▶ Watch Match
+
+            </button>
+
+          }
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>

@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+aiokafka
+elasticsearch
+python-dotenv
+pydantic

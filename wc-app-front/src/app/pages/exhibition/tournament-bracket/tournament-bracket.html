@@ -1,0 +1,1159 @@
+<div class="bracket-page">
+
+  <div class="background-glow glow-left"></div>
+  <div class="background-glow glow-right"></div>
+
+  @if(loading){
+
+    <div class="loading-container">
+
+      <div class="loader"></div>
+
+      <h2>
+        Loading Tournament Bracket...
+      </h2>
+
+    </div>
+
+  }
+
+  @if(!loading){
+
+    <div class="page-header">
+
+      <button
+        class="back-btn"
+        (click)="goBack()">
+
+        ← Back
+
+      </button>
+
+      <div class="title-section">
+
+        <h1>
+
+          🏆 FIFA World Cup Bracket
+
+        </h1>
+
+        <p>
+
+          The Road To Glory
+
+        </p>
+
+      </div>
+
+    </div>
+    <div class="progress-timeline">
+
+      <div
+        class="timeline-step"
+        [class.completed]="
+      isCompletedStage(
+        'GROUP_STAGE'
+      )
+    "
+        [class.current]="
+      isCurrentStage(
+        'GROUP_STAGE'
+      )
+    ">
+
+        <div class="timeline-icon">
+          🏁
+        </div>
+
+        <span>
+      Group Stage
+    </span>
+
+      </div>
+
+      <div class="timeline-line"></div>
+
+      <div
+        class="timeline-step"
+        [class.completed]="
+      isCompletedStage(
+        'ROUND_32'
+      )
+    "
+        [class.current]="
+      isCurrentStage(
+        'ROUND_32'
+      )
+    ">
+
+        <div class="timeline-icon">
+          ⚔️
+        </div>
+
+        <span>
+      Round 32
+    </span>
+
+      </div>
+
+      <div class="timeline-line"></div>
+
+      <div
+        class="timeline-step"
+        [class.completed]="
+      isCompletedStage(
+        'ROUND_16'
+      )
+    "
+        [class.current]="
+      isCurrentStage(
+        'ROUND_16'
+      )
+    ">
+
+        <div class="timeline-icon">
+          🔥
+        </div>
+
+        <span>
+      Round 16
+    </span>
+
+      </div>
+
+      <div class="timeline-line"></div>
+
+      <div
+        class="timeline-step"
+        [class.completed]="
+      isCompletedStage(
+        'QUARTER_FINAL'
+      )
+    "
+        [class.current]="
+      isCurrentStage(
+        'QUARTER_FINAL'
+      )
+    ">
+
+        <div class="timeline-icon">
+          🎯
+        </div>
+
+        <span>
+      Quarter Finals
+    </span>
+
+      </div>
+
+      <div class="timeline-line"></div>
+
+      <div
+        class="timeline-step"
+        [class.completed]="
+      isCompletedStage(
+        'SEMI_FINAL'
+      )
+    "
+        [class.current]="
+      isCurrentStage(
+        'SEMI_FINAL'
+      )
+    ">
+
+        <div class="timeline-icon">
+          🚀
+        </div>
+
+        <span>
+      Semi Finals
+    </span>
+
+      </div>
+
+      <div class="timeline-line"></div>
+
+      <div
+        class="timeline-step"
+        [class.completed]="
+      isCompletedStage(
+        'FINAL'
+      )
+    "
+        [class.current]="
+      isCurrentStage(
+        'FINAL'
+      )
+    ">
+
+        <div class="timeline-icon">
+          🏆
+        </div>
+
+        <span>
+      Final
+    </span>
+
+      </div>
+
+      <div class="timeline-line"></div>
+
+      <div
+        class="timeline-step champion-step"
+        [class.completed]="
+      isCompletedStage(
+        'CHAMPION'
+      )
+    "
+        [class.current]="
+      isCurrentStage(
+        'CHAMPION'
+      )
+    ">
+
+        <div class="timeline-icon">
+          👑
+        </div>
+
+        <span>
+      Champion
+    </span>
+
+      </div>
+
+    </div>
+
+    <div class="bracket-container" [class.bracket-refresh]="loading">
+
+      <!-- ROUND OF 32 -->
+
+      <div class="round-column">
+
+        <div class="round-title">
+
+          Round of 32
+
+          <span class="round-count">
+
+            {{ bracket?.round32?.length || 0 }}
+            Matches
+
+          </span>
+
+        </div>
+
+        @for(
+          match of bracket?.round32;
+          track match.id
+          ){
+
+          <div
+            class="match-card clickable"
+            [class.played]="match.played"
+            (click)="openKnockoutMatch(
+      match.phaseId,
+      match.id
+  )">
+
+            <div class="match-status">
+
+              @if(!match.played){
+
+                <button
+                  class="play-match-btn"
+                  (click)="
+      $event.stopPropagation();
+      openKnockoutMatch(
+        match.phaseId,
+        match.id
+      )">
+
+                  ▶ Play Match
+
+                </button>
+
+              }
+
+              @if(match.played){
+
+                <span class="status finished">
+
+                  ✓ Finished
+
+                </span>
+
+              } @else {
+
+                <span class="status upcoming">
+
+                  ⏳ Upcoming
+
+                </span>
+
+              }
+
+            </div>
+
+            <div
+            [class.advance-animation]="
+    animatingTeams.includes(
+      match.teamHomeId
+    )
+  "
+  class="team-row"
+              [class.winner]="
+                getWinner(match) ===
+                match.teamHomeId
+              ">
+
+              <div class="team-left">
+
+                <img
+                  [src]="getFlag(match.teamHomeId)"
+                  alt="flag">
+
+                <span>
+
+                  {{
+                    getTeamName(
+                      match.teamHomeId
+                    ) || 'TBD'
+                  }}
+
+                </span>
+
+              </div>
+
+              <strong>
+
+                {{
+                  match.played
+                    ? match.goalsHome
+                    : '-'
+                }}
+
+              </strong>
+
+            </div>
+
+            <div
+            [class.advance-animation]="
+    animatingTeams.includes(
+      match.teamHomeId
+    )
+  "
+  class="team-row"
+              [class.winner]="
+                getWinner(match) ===
+                match.teamAwayId
+              ">
+
+              <div class="team-left">
+
+                <img
+                  [src]="getFlag(match.teamAwayId)"
+                  alt="flag">
+
+                <span>
+
+                  {{
+                    getTeamName(
+                      match.teamAwayId
+                    ) || 'TBD'
+                  }}
+
+                </span>
+
+              </div>
+
+              <strong>
+
+                {{
+                  match.played
+                    ? match.goalsAway
+                    : '-'
+                }}
+
+              </strong>
+
+            </div>
+
+            @if(match.winnerTeamId){
+
+              <div class="winner-banner">
+
+                🏆 Winner
+
+                {{
+                  getTeamName(
+                    match.winnerTeamId
+                  )
+                }}
+
+              </div>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+      <!-- ROUND OF 16 -->
+
+      <div class="round-column">
+
+        <div class="round-title">
+
+          Round of 16
+
+          <span class="round-count">
+
+            {{ bracket?.round16?.length || 0 }}
+            Matches
+
+          </span>
+
+        </div>
+
+        @for(
+          match of bracket?.round16;
+          track match.id
+          ){
+
+          <div
+            class="match-card"
+            [class.played]="match.played">
+
+            <div class="match-status">
+
+              @if(match.played){
+
+                <span class="status finished">
+
+                  ✓ Finished
+
+                </span>
+
+              } @else {
+
+                <span class="status upcoming">
+
+                  ⏳ Upcoming
+
+                </span>
+
+              }
+
+            </div>
+
+            <div
+            [class.advance-animation]="
+    animatingTeams.includes(
+      match.teamHomeId
+    )
+  "
+  class="team-row"
+              [class.winner]="
+                getWinner(match) ===
+                match.teamHomeId
+              ">
+
+              <div class="team-left">
+
+                <img
+                  [src]="getFlag(match.teamHomeId)"
+                  alt="flag">
+
+                <span>
+
+                  {{
+                    getTeamName(
+                      match.teamHomeId
+                    ) || 'TBD'
+                  }}
+
+                </span>
+
+              </div>
+
+              <strong>
+
+                {{
+                  match.played
+                    ? match.goalsHome
+                    : '-'
+                }}
+
+              </strong>
+
+            </div>
+
+            <div
+            [class.advance-animation]="
+    animatingTeams.includes(
+      match.teamHomeId
+    )
+  "
+  class="team-row"
+              [class.winner]="
+                getWinner(match) ===
+                match.teamAwayId
+              ">
+
+              <div class="team-left">
+
+                <img
+                  [src]="getFlag(match.teamAwayId)"
+                  alt="flag">
+
+                <span>
+
+                  {{
+                    getTeamName(
+                      match.teamAwayId
+                    ) || 'TBD'
+                  }}
+
+                </span>
+
+              </div>
+
+              <strong>
+
+                {{
+                  match.played
+                    ? match.goalsAway
+                    : '-'
+                }}
+
+              </strong>
+
+            </div>
+
+            @if(match.winnerTeamId){
+
+              <div class="winner-banner">
+
+                🏆 Winner
+
+                {{
+                  getTeamName(
+                    match.winnerTeamId
+                  )
+                }}
+
+              </div>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+      <!-- QUARTER FINALS -->
+
+      <div class="round-column">
+
+        <div class="round-title">
+
+          Quarter Finals
+
+          <span class="round-count">
+
+            {{ bracket?.quarterFinals?.length || 0 }}
+            Matches
+
+          </span>
+
+        </div>
+
+        @for(
+          match of bracket?.quarterFinals;
+          track match.id
+          ){
+
+          <div
+            class="match-card"
+            [class.played]="match.played">
+
+            <div class="match-status">
+
+              @if(match.played){
+
+                <span class="status finished">
+
+                  ✓ Finished
+
+                </span>
+
+              } @else {
+
+                <span class="status upcoming">
+
+                  ⏳ Upcoming
+
+                </span>
+
+              }
+
+            </div>
+
+            <div
+            [class.advance-animation]="
+    animatingTeams.includes(
+      match.teamHomeId
+    )
+  "
+  class="team-row"
+              [class.winner]="
+                getWinner(match) ===
+                match.teamHomeId
+              ">
+
+              <div class="team-left">
+
+                <img
+                  [src]="getFlag(match.teamHomeId)"
+                  alt="flag">
+
+                <span>
+
+                  {{
+                    getTeamName(
+                      match.teamHomeId
+                    ) || 'TBD'
+                  }}
+
+                </span>
+
+              </div>
+
+              <strong>
+
+                {{
+                  match.played
+                    ? match.goalsHome
+                    : '-'
+                }}
+
+              </strong>
+
+            </div>
+
+            <div
+            [class.advance-animation]="
+    animatingTeams.includes(
+      match.teamHomeId
+    )
+  "
+  class="team-row"
+              [class.winner]="
+                getWinner(match) ===
+                match.teamAwayId
+              ">
+
+              <div class="team-left">
+
+                <img
+                  [src]="getFlag(match.teamAwayId)"
+                  alt="flag">
+
+                <span>
+
+                  {{
+                    getTeamName(
+                      match.teamAwayId
+                    ) || 'TBD'
+                  }}
+
+                </span>
+
+              </div>
+
+              <strong>
+
+                {{
+                  match.played
+                    ? match.goalsAway
+                    : '-'
+                }}
+
+              </strong>
+
+            </div>
+
+            @if(match.winnerTeamId){
+
+              <div class="winner-banner">
+
+                🏆 Winner
+
+                {{
+                  getTeamName(
+                    match.winnerTeamId
+                  )
+                }}
+
+              </div>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+      <!-- SEMI FINALS -->
+
+      <div class="round-column">
+
+        <div class="round-title">
+
+          Semi Finals
+
+          <span class="round-count">
+
+            {{ bracket?.semiFinals?.length || 0 }}
+            Matches
+
+          </span>
+
+        </div>
+
+        @for(
+          match of bracket?.semiFinals;
+          track match.id
+          ){
+
+          <div
+            class="match-card"
+            [class.played]="match.played">
+
+            <div class="match-status">
+
+              @if(match.played){
+
+                <span class="status finished">
+
+                  ✓ Finished
+
+                </span>
+
+              } @else {
+
+                <span class="status upcoming">
+
+                  ⏳ Upcoming
+
+                </span>
+
+              }
+
+            </div>
+
+            <div
+            [class.advance-animation]="
+    animatingTeams.includes(
+      match.teamHomeId
+    )
+  "
+  class="team-row"
+              [class.winner]="
+                getWinner(match) ===
+                match.teamHomeId
+              ">
+
+              <div class="team-left">
+
+                <img
+                  [src]="getFlag(match.teamHomeId)"
+                  alt="flag">
+
+                <span>
+
+                  {{
+                    getTeamName(
+                      match.teamHomeId
+                    ) || 'TBD'
+                  }}
+
+                </span>
+
+              </div>
+
+              <strong>
+
+                {{
+                  match.played
+                    ? match.goalsHome
+                    : '-'
+                }}
+
+              </strong>
+
+            </div>
+
+            <div
+            [class.advance-animation]="
+    animatingTeams.includes(
+      match.teamHomeId
+    )
+  "
+  class="team-row"
+              [class.winner]="
+                getWinner(match) ===
+                match.teamAwayId
+              ">
+
+              <div class="team-left">
+
+                <img
+                  [src]="getFlag(match.teamAwayId)"
+                  alt="flag">
+
+                <span>
+
+                  {{
+                    getTeamName(
+                      match.teamAwayId
+                    ) || 'TBD'
+                  }}
+
+                </span>
+
+              </div>
+
+              <strong>
+
+                {{
+                  match.played
+                    ? match.goalsAway
+                    : '-'
+                }}
+
+              </strong>
+
+            </div>
+
+            @if(match.winnerTeamId){
+
+              <div class="winner-banner">
+
+                🏆 Winner
+
+                {{
+                  getTeamName(
+                    match.winnerTeamId
+                  )
+                }}
+
+              </div>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+      <!-- FINAL -->
+
+      <div class="round-column final-column">
+
+        <div class="round-title champion-title">
+
+          🏆 World Cup Final
+
+        </div>
+
+        @for(
+          match of bracket?.finals;
+          track match.id
+          ){
+
+          <div class="final-match">
+
+            <div class="trophy-glow"></div>
+
+            <div
+            [class.advance-animation]="
+    animatingTeams.includes(
+      match.teamHomeId
+    )
+  "
+  class="team-row"
+              [class.winner]="
+                getWinner(match) ===
+                match.teamHomeId
+              ">
+
+              <div class="team-left">
+
+                <img
+                  [src]="getFlag(match.teamHomeId)"
+                  alt="flag">
+
+                <span>
+
+                  {{
+                    getTeamName(
+                      match.teamHomeId
+                    ) || 'TBD'
+                  }}
+
+                </span>
+
+              </div>
+
+              <strong>
+
+                {{
+                  match.played
+                    ? match.goalsHome
+                    : '-'
+                }}
+
+              </strong>
+
+            </div>
+
+            <div
+            [class.advance-animation]="
+    animatingTeams.includes(
+      match.teamHomeId
+    )
+  "
+  class="team-row"
+              [class.winner]="
+                getWinner(match) ===
+                match.teamAwayId
+              ">
+
+              <div class="team-left">
+
+                <img
+                  [src]="getFlag(match.teamAwayId)"
+                  alt="flag">
+
+                <span>
+
+                  {{
+                    getTeamName(
+                      match.teamAwayId
+                    ) || 'TBD'
+                  }}
+
+                </span>
+
+              </div>
+
+              <strong>
+
+                {{
+                  match.played
+                    ? match.goalsAway
+                    : '-'
+                }}
+
+              </strong>
+
+            </div>
+
+            @if(match.winnerTeamId){
+
+              <div class="champion-banner">
+
+                <div class="champion-icon">
+
+                  👑
+
+                </div>
+
+                <div class="champion-content">
+
+                  <div class="champion-label">
+
+                    FIFA WORLD CHAMPION
+
+                  </div>
+
+                  <div class="champion-name">
+
+                    {{
+                      getTeamName(
+                        match.winnerTeamId
+                      )
+                    }}
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            }
+
+          </div>
+
+          <!-- THIRD PLACE -->
+
+          @if(hasThirdPlaceMatch()){
+
+            <div class="round-column third-place-column">
+
+              <div class="round-title third-place-title">
+
+                🥉 Third Place Match
+
+              </div>
+
+              @for(
+                match of bracket?.thirdPlace;
+                track match.id
+                ){
+
+                <div class="third-place-match">
+
+                  <div class="bronze-glow"></div>
+
+                  <div
+                  [class.advance-animation]="
+    animatingTeams.includes(
+      match.teamHomeId
+    )
+  "
+  class="team-row"
+                    [class.winner]="
+        getWinner(match) ===
+        match.teamHomeId
+      ">
+
+                    <div class="team-left">
+
+                      <img
+                        [src]="getFlag(match.teamHomeId)"
+                        alt="flag">
+
+                      <span>
+
+          {{
+                          getTeamName(
+                            match.teamHomeId
+                          ) || 'TBD'
+                        }}
+
+        </span>
+
+                    </div>
+
+                    <strong>
+
+                      {{
+                        match.played
+                          ? match.goalsHome
+                          : '-'
+                      }}
+
+                    </strong>
+
+                  </div>
+
+                  <div
+                  [class.advance-animation]="
+    animatingTeams.includes(
+      match.teamHomeId
+    )
+  "
+  class="team-row"
+                    [class.winner]="
+        getWinner(match) ===
+        match.teamAwayId
+      ">
+
+                    <div class="team-left">
+
+                      <img
+                        [src]="getFlag(match.teamAwayId)"
+                        alt="flag">
+
+                      <span>
+
+          {{
+                          getTeamName(
+                            match.teamAwayId
+                          ) || 'TBD'
+                        }}
+
+        </span>
+
+                    </div>
+
+                    <strong>
+
+                      {{
+                        match.played
+                          ? match.goalsAway
+                          : '-'
+                      }}
+
+                    </strong>
+
+                  </div>
+
+                  @if(match.winnerTeamId){
+
+                    <div class="third-place-banner">
+
+                      <div class="bronze-medal">
+
+                        🥉
+
+                      </div>
+
+                      <div>
+
+                        <div class="third-place-label">
+
+                          THIRD PLACE
+
+                        </div>
+
+                        <div class="third-place-team">
+
+                          {{
+                            getTeamName(
+                              match.winnerTeamId
+                            )
+                          }}
+
+                        </div>
+
+                      </div>
+
+                    </div>
+
+                  }
+
+                </div>
+
+              }
+
+            </div>
+
+          }
+
+        }
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

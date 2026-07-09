@@ -1,0 +1,185 @@
+<div class="standings-page">
+
+  <div class="background-glow glow-left"></div>
+  <div class="background-glow glow-right"></div>
+
+  @if(loading){
+
+    <div class="loading-container">
+
+      <div class="loader"></div>
+
+      <h2>
+        Loading Standings...
+      </h2>
+
+    </div>
+
+  }
+
+  @if(!loading){
+
+    <div class="header">
+
+      <button
+        class="back-btn"
+        (click)="goBack()">
+
+        ← Back
+
+      </button>
+
+      <div class="title-section">
+
+        <h1>
+
+          Group {{ group?.name }}
+
+        </h1>
+
+        <p>
+
+          Qualification Standings
+
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="qualification-legend">
+
+      <div class="legend-item qualified">
+
+        🟢 Qualified
+
+      </div>
+
+      <div class="legend-item eliminated">
+
+        🔴 Eliminated
+
+      </div>
+
+    </div>
+
+    <div class="standings-container">
+
+      <div class="table-header">
+
+        <div>#</div>
+
+        <div>Team</div>
+
+        <div>P</div>
+
+        <div>W</div>
+
+        <div>D</div>
+
+        <div>L</div>
+
+        <div>GF</div>
+
+        <div>GA</div>
+
+        <div>GD</div>
+
+        <div>PTS</div>
+
+      </div>
+
+      @for(
+        standing of standings;
+        track standing.teamId;
+        let i = $index
+        ){
+
+        <div
+          class="standing-row"
+          [class.qualified]="i < 2"
+          [class.eliminated]="i >= 2">
+
+          <div class="position">
+
+            {{ i + 1 }}
+
+          </div>
+
+          <div class="team-cell">
+
+            <img
+              [src]="getFlag(standing.teamId)"
+              alt="flag">
+
+            <div class="team-info">
+
+              <div class="team-name">
+
+                {{ getTeam(standing.teamId)?.name }}
+
+              </div>
+
+              <div class="team-continent">
+
+                {{ getTeam(standing.teamId)?.continent }}
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div>
+            {{ standing.played }}
+          </div>
+
+          <div>
+            {{ standing.won }}
+          </div>
+
+          <div>
+            {{ standing.draw }}
+          </div>
+
+          <div>
+            {{ standing.lost }}
+          </div>
+
+          <div>
+            {{ standing.goalsFor }}
+          </div>
+
+          <div>
+            {{ standing.goalsAgainst }}
+          </div>
+
+          <div
+            [class.positive]="getGoalDifference(standing) > 0"
+            [class.negative]="getGoalDifference(standing) < 0">
+
+            {{ getGoalDifference(standing) }}
+
+          </div>
+
+          <div class="points">
+
+            {{ standing.points }}
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+    <div class="qualification-banner">
+
+      🏆 Top 2 teams qualify for the Knockout Stage
+
+    </div>
+
+  }
+
+</div>

@@ -1,0 +1,407 @@
+<div class="statistics-page">
+
+  <div class="background-glow glow-left"></div>
+  <div class="background-glow glow-right"></div>
+
+  @if(loading){
+
+    <div class="loading-container">
+
+      <div class="loader"></div>
+
+      <h2>
+
+        Loading Tournament Statistics...
+
+      </h2>
+
+    </div>
+
+  }
+
+  @if(!loading && statistics){
+
+    <div class="page-header">
+
+      <button
+        class="back-btn"
+        (click)="goBack()">
+
+        ← Back
+
+      </button>
+
+      <div class="title-section">
+
+        <h1>
+
+          📊 Tournament Statistics
+
+        </h1>
+
+        <p>
+
+          Complete World Cup Analytics Dashboard
+
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- KPI CARDS -->
+
+    <div class="stats-grid">
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+
+          ⚽
+
+        </div>
+
+        <div class="stat-value">
+
+          {{statistics.totalGoals}}
+
+        </div>
+
+        <div class="stat-label">
+
+          Total Goals
+
+        </div>
+
+      </div>
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+
+          🏟️
+
+        </div>
+
+        <div class="stat-value">
+
+          {{statistics.playedMatches}}
+
+        </div>
+
+        <div class="stat-label">
+
+          Matches Played
+
+        </div>
+
+      </div>
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+
+          📈
+
+        </div>
+
+        <div class="stat-value">
+
+          {{statistics.averageGoalsPerMatch}}
+
+        </div>
+
+        <div class="stat-label">
+
+          Goals Per Match
+
+        </div>
+
+      </div>
+
+      <div class="stat-card">
+
+        <div class="stat-icon">
+
+          🧮
+
+        </div>
+
+        <div class="stat-value">
+
+          {{statistics.totalMatches}}
+
+        </div>
+
+        <div class="stat-label">
+
+          Total Matches
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- TOP SCORING TEAM -->
+
+    <div class="top-team-card">
+
+      <div class="top-team-header">
+
+        🔥 Best Attack
+
+      </div>
+
+      <div class="top-team-name">
+
+        {{
+          getTeamName(
+            statistics.topScoringTeamId
+          )
+        }}
+
+      </div>
+
+      <div class="top-team-goals">
+
+        {{statistics.topScoringTeamGoals}}
+        Goals
+
+      </div>
+
+    </div>
+
+    <!-- GOALS BREAKDOWN -->
+
+    <div class="analytics-grid">
+
+      <div class="analytics-card">
+
+        <h2>
+
+          ⚽ Goals Distribution
+
+        </h2>
+
+        <div class="progress-section">
+
+          <div class="progress-label">
+
+            Home Goals
+
+            <span>
+
+              {{statistics.homeGoals}}
+
+            </span>
+
+          </div>
+
+          <div class="progress-bar">
+
+            <div
+              class="progress-fill home-fill"
+              [style.width.%]="
+                getGoalPercentage(
+                  statistics.homeGoals
+                )
+              ">
+            </div>
+          </div>
+
+        </div>
+
+        <div class="progress-section">
+
+          <div class="progress-label">
+
+            Away Goals
+
+            <span>
+
+              {{statistics.awayGoals}}
+
+            </span>
+
+          </div>
+
+          <div class="progress-bar">
+
+            <div
+              class="progress-fill away-fill"
+              [style.width.%]="
+                getGoalPercentage(
+                  statistics.awayGoals
+                )
+              ">
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- TOURNAMENT SUMMARY -->
+
+      <div class="analytics-card">
+
+        <h2>
+
+          🏆 Tournament Summary
+
+        </h2>
+
+        <div class="summary-row">
+
+          <span>
+
+            Total Matches
+
+          </span>
+
+          <strong>
+
+            {{statistics.totalMatches}}
+
+          </strong>
+
+        </div>
+
+        <div class="summary-row">
+
+          <span>
+
+            Played Matches
+
+          </span>
+
+          <strong>
+
+            {{statistics.playedMatches}}
+
+          </strong>
+
+        </div>
+
+        <div class="summary-row">
+
+          <span>
+
+            Total Goals
+
+          </span>
+
+          <strong>
+
+            {{statistics.totalGoals}}
+
+          </strong>
+
+        </div>
+
+        <div class="summary-row">
+
+          <span>
+
+            Average Goals
+
+          </span>
+
+          <strong>
+
+            {{statistics.averageGoalsPerMatch}}
+
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- INSIGHTS -->
+
+    <div class="insights-card">
+
+      <h2>
+
+        📌 Tournament Insights
+
+      </h2>
+
+      <div class="insights-grid">
+
+        <div class="insight-box">
+
+          <div class="insight-value">
+
+            {{
+              statistics.homeGoals >
+              statistics.awayGoals
+                ? '🏠'
+                : '✈️'
+            }}
+
+          </div>
+
+          <div class="insight-text">
+
+            {{
+              statistics.homeGoals >
+              statistics.awayGoals
+                ? 'Home teams scored more'
+                : 'Away teams scored more'
+            }}
+
+          </div>
+
+        </div>
+
+        <div class="insight-box">
+
+          <div class="insight-value">
+
+            🔥
+
+          </div>
+
+          <div class="insight-text">
+
+            {{
+              getTeamName(
+                statistics.topScoringTeamId
+              )
+            }}
+            has the best attack
+
+          </div>
+
+        </div>
+
+        <div class="insight-box">
+
+          <div class="insight-value">
+
+            ⚽
+
+          </div>
+
+          <div class="insight-text">
+
+            {{
+              statistics.averageGoalsPerMatch
+            }}
+            goals per match
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

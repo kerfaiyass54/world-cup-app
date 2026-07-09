@@ -1,1 +1,150 @@
-<p>exhibition works!</p>
+<div class="page">
+
+  <div class="hero">
+
+    <div>
+
+      <h1>
+        World Cup Manager
+      </h1>
+
+      <p>
+        Manage, simulate and analyze your tournaments
+      </p>
+
+    </div>
+
+    <button
+      class="create-btn"
+      (click)="createTournament()">
+
+      + Create Tournament
+
+    </button>
+
+  </div>
+
+  @if(loading){
+
+    <div class="loading">
+
+      <div class="spinner"></div>
+
+    </div>
+
+  }
+
+  @if(!loading && tournaments.length === 0){
+
+    <div class="empty-state">
+
+      <div class="ball">
+
+        ⚽
+
+      </div>
+
+      <h2>
+
+        No tournaments yet
+
+      </h2>
+
+      <p>
+
+        Create your first World Cup simulation
+
+      </p>
+
+    </div>
+
+  }
+
+  @if(!loading && tournaments.length > 0){
+
+    <div class="cards-grid">
+
+      @for(
+        tournament of tournaments;
+        track tournament.id
+        ){
+
+        <div
+          class="tournament-card"
+          (click)="
+            openTournament(
+              tournament
+            )
+          ">
+
+          <div class="card-top">
+
+            <span class="status"
+                  [class.running]="
+                  tournament.started">
+
+              {{
+                tournament.started
+                  ? 'Running'
+                  : 'Draft'
+              }}
+
+            </span>
+
+          </div>
+
+          <h3>
+
+            Tournament
+
+          </h3>
+
+          <div class="card-info">
+
+            <div>
+
+              <span>Groups</span>
+
+              <strong>
+
+                {{
+                  tournament.groups?.length
+                  || 0
+                }}
+
+              </strong>
+
+            </div>
+
+            <div>
+
+              <span>Knockouts</span>
+
+              <strong>
+
+                {{
+                  tournament.knockouts?.length
+                  || 0
+                }}
+
+              </strong>
+
+            </div>
+
+          </div>
+
+          <div class="card-footer">
+
+            {{ tournament.startDate }}
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</div>

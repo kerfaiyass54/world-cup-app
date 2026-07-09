@@ -1,0 +1,371 @@
+<div class="page">
+
+  <!-- HERO -->
+
+  <div class="hero">
+
+    <h1>Create World Cup Tournament</h1>
+
+    <p>
+      Build your 2026 World Cup groups with official FIFA rules.
+    </p>
+
+  </div>
+
+  <!-- STEPPER -->
+
+  <div class="stepper">
+
+    <div
+      class="step"
+      [class.active]="currentStep >= 1">
+
+      <div class="step-circle">
+        1
+      </div>
+
+      <span>
+        Groups
+      </span>
+
+    </div>
+
+    <div class="step-line"></div>
+
+    <div
+      class="step"
+      [class.active]="currentStep >= 2">
+
+      <div class="step-circle">
+        2
+      </div>
+
+      <span>
+        Review
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- LOADING -->
+
+  @if(loading){
+
+    <div class="loading-container">
+
+      <div class="loader"></div>
+
+      <p>
+        Loading teams...
+      </p>
+
+    </div>
+
+  }
+
+  <!-- STEP 1 -->
+
+  @if(!loading && currentStep === 1){
+
+    <div class="progress-card">
+
+      <div class="progress-header">
+
+        <span>
+          Tournament Progress
+        </span>
+
+        <strong>
+
+          {{ selectedTeamsCount }}/48
+
+        </strong>
+
+      </div>
+
+      <div class="progress-bar">
+
+        <div
+          class="progress-fill"
+          [style.width.%]="
+            getCompletionPercentage()
+          ">
+        </div>
+
+      </div>
+
+    </div>
+
+    @if(errorMessage){
+
+      <div class="error-box">
+
+        {{ errorMessage }}
+
+      </div>
+
+    }
+
+    <div class="builder-layout">
+
+      <!-- AVAILABLE TEAMS -->
+
+      <div class="teams-panel">
+
+        <div class="panel-header">
+
+          <h2>
+            Available Teams
+          </h2>
+
+          <span>
+
+            {{ teams.length }}
+
+          </span>
+
+        </div>
+
+        <div
+          class="teams-list"
+          (dragover)="allowDrop($event)"
+          (drop)="dropToAvailableTeams()">
+
+          @for(team of teams; track team.id){
+
+            <div
+              class="team-card"
+              draggable="true"
+              (dragstart)="onDragStart(team)">
+
+              <div class="team-info">
+
+                <span
+                  class="fi fi-{{flagMap[team.name]}}">
+                </span>
+
+                <div>
+
+                  <div class="team-name">
+                    {{team.name}}
+                  </div>
+
+                  <div class="team-continent">
+                    {{team.continent}}
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="ability">
+
+                {{team.ability}}
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+      <!-- GROUPS -->
+
+      <div class="groups-panel">
+
+        @for(group of groups; track group.name){
+
+          <div
+            class="group-card"
+            (dragover)="allowDrop($event)"
+            (drop)="dropToGroup(group)">
+
+            <div class="group-header">
+
+              <div>
+
+                <h3>
+                  Group {{group.name}}
+                </h3>
+
+                <small>
+
+                  Power:
+                  {{getGroupAbility(group)}}
+
+                </small>
+
+              </div>
+
+              <div
+                class="group-status"
+                [class.complete]="
+                  isGroupComplete(group)
+                ">
+
+                {{group.teams.length}}/4
+
+              </div>
+
+            </div>
+
+            <div class="group-body">
+
+              @for(team of group.teams; track team.id){
+
+                <div
+                  class="group-team"
+                  draggable="true"
+                  (dragstart)="
+                    onDragStart(
+                      team,
+                      group
+                    )
+                  ">
+
+                  <span
+                    class="fi fi-{{flagMap[team.name]}}">
+                  </span>
+
+                  <span>
+
+                    {{team.name}}
+
+                  </span>
+
+                </div>
+
+              }
+
+              @if(group.teams.length === 0){
+
+                <div class="drop-zone">
+
+                  Drop Teams Here
+
+                </div>
+
+              }
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+    <div class="actions">
+
+      <button
+        class="continue-btn"
+        (click)="reviewTournament()">
+
+        Review Tournament →
+
+      </button>
+
+    </div>
+
+  }
+
+  <!-- STEP 2 -->
+
+  @if(currentStep === 2){
+
+    <div class="review-page">
+
+      <h2>
+
+        Tournament Review
+
+      </h2>
+
+      <p>
+
+        Verify all groups before saving.
+
+      </p>
+
+      <div class="review-groups">
+
+        @for(group of groups; track group.name){
+
+          <div class="review-card">
+
+            <div class="review-header">
+
+              Group {{group.name}}
+
+            </div>
+
+            <div class="review-body">
+
+              @for(team of group.teams; track team.id){
+
+                <div class="review-team">
+
+                  <span
+                    class="fi fi-{{flagMap[team.name]}}">
+                  </span>
+
+                  <span>
+
+                    {{team.name}}
+
+                  </span>
+
+                </div>
+
+              }
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+      <div class="review-actions">
+
+        <button
+          class="back-btn"
+          (click)="backToEditor()">
+
+          ← Back
+
+        </button>
+
+        <button
+          class="save-btn"
+          [disabled]="saving"
+          (click)="saveTournament()">
+
+          @if(!saving){
+
+            Save Tournament
+
+          }
+
+          @if(saving){
+
+            Saving...
+
+          }
+
+        </button>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

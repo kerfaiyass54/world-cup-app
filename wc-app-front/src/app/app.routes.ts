@@ -1,4 +1,10 @@
 import { Routes } from '@angular/router';
+import { MatchCenter } from './pages/exhibition/match-center/match-center';
+import { LiveMatch } from './pages/exhibition/live-match/live-match';
+import { TournamentBracket } from './pages/exhibition/tournament-bracket/tournament-bracket';
+import { TournamentStatistics } from './pages/exhibition/tournament-statistics/tournament-statistics';
+import { TournamentChampion } from './pages/exhibition/tournament-champion/tournament-champion';
+
 
 export const routes: Routes = [
 
@@ -33,7 +39,61 @@ export const routes: Routes = [
       import('./pages/predictions/check-predictions/check-predictions')
         .then(m => m.CheckPredictions)
   },
+  {
+    path: 'exhibition/create',
+    loadComponent: () =>
+      import('./pages/exhibition/tournament-create/tournament-create')
+        .then(m => m.TournamentCreate)
+  },{
+    path:
+      'tournaments/:tournamentId/bracket',
 
+    component:
+    TournamentBracket
+  },{
+    path: ':id/statistics',
+    component: TournamentStatistics
+  },
+  {
+    path: ':id/champion',
+    component: TournamentChampion
+  },
+
+  {
+    path: 'exhibition/:id',
+    loadComponent: () =>
+      import('./pages/exhibition/tournament-details/tournament-details')
+        .then(m => m.TournamentDetails)
+  },{
+    path: ':tournamentId/groups/:groupId',
+    loadComponent: () =>
+      import(
+        './pages/exhibition/group-matches/group-matches'
+        ).then(
+        m => m.GroupMatches
+      )
+  },{
+    path:
+      'exhibition/:tournamentId/group/:groupId/match/:matchId',
+    component:
+    LiveMatch
+  },{
+    path:
+      'exhibition/tournaments/:tournamentId/groups/:groupId/standings',
+
+    loadComponent: () =>
+      import(
+        './pages/exhibition/group-standings/group-standings'
+        )
+        .then(
+          m => m.GroupStandings
+        )
+  },{
+    path:
+      'exhibition/:tournamentId/group/:groupId/match/:matchId',
+    component:
+    MatchCenter
+  },
   {
     path: 'exhibition',
     loadComponent: () =>

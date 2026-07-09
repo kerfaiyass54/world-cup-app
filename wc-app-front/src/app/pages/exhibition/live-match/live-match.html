@@ -1,0 +1,368 @@
+<div class="live-match-page">
+
+  <div class="background-glow glow-left"></div>
+  <div class="background-glow glow-right"></div>
+
+  @if(loading){
+
+    <div class="loading-container">
+
+      <div class="loader"></div>
+
+      <h2>
+        Loading Match...
+      </h2>
+
+    </div>
+
+  }
+
+  @if(!loading){
+
+    <div class="header">
+
+      <button
+        class="back-btn"
+        (click)="goBack()">
+
+        ← Back
+
+      </button>
+
+      @if(isKnockout){
+
+        <div class="knockout-badge">
+
+          🏆 Knockout Match
+
+        </div>
+
+      }
+
+    </div>
+
+    <div class="scoreboard">
+
+      <div class="team-section">
+
+        <img
+          class="team-flag"
+          [src]="getFlag(homeTeam?.id)"
+          alt="flag">
+
+        <div class="team-name">
+
+          {{homeTeam?.name}}
+
+        </div>
+
+        <div class="team-rating">
+
+          ⭐ {{homeTeam?.ability}}
+
+        </div>
+
+      </div>
+
+      <div class="center-section">
+
+        <div class="minute">
+
+          {{currentMinute}}'
+
+        </div>
+
+        <div class="score">
+
+          {{homeScore}}
+          -
+          {{awayScore}}
+
+        </div>
+
+        @if(
+          simulationResult?.penaltiesHome != null
+          ){
+
+          <div class="penalty-score">
+
+            Penalties
+
+            {{simulationResult.penaltiesHome}}
+            -
+            {{simulationResult.penaltiesAway}}
+
+          </div>
+
+        }
+
+      </div>
+
+      <div class="team-section">
+
+        <img
+          class="team-flag"
+          [src]="getFlag(awayTeam?.id)"
+          alt="flag">
+
+        <div class="team-name">
+
+          {{awayTeam?.name}}
+
+        </div>
+
+        <div class="team-rating">
+
+          ⭐ {{awayTeam?.ability}}
+
+        </div>
+
+      </div>
+
+    </div>
+
+    @if(!simulating && displayedEvents.length === 0){
+
+      <div class="simulate-container">
+
+        <button
+          class="simulate-btn"
+          (click)="simulate()">
+
+          ▶ Start Simulation
+
+        </button>
+
+      </div>
+
+    }
+
+    @if(simulating){
+
+      <div class="live-badge">
+
+        🔴 LIVE MATCH
+
+      </div>
+
+    }
+
+    @if(finished){
+
+      <div class="finished-badge">
+
+        🏁 Full Time
+
+      </div>
+
+      @if(simulationResult?.winnerTeamId){
+
+        <div class="winner-banner">
+
+          👑 Winner:
+
+          {{
+            simulationResult.winnerTeamId === homeTeam?.id
+              ? homeTeam?.name
+              : awayTeam?.name
+          }}
+
+        </div>
+
+      }
+
+      <div class="save-container">
+
+        <button
+          class="save-btn"
+          (click)="saveResult()">
+
+          💾 Save Result
+
+        </button>
+
+      </div>
+
+    }
+
+    @if(finished && stats){
+
+      <div class="stats-card">
+
+        <h2>
+          📊 Match Statistics
+        </h2>
+
+        <div class="stat-row">
+          <span>{{stats.home_possession}}%</span>
+          <div class="stat-label">Possession</div>
+          <span>{{stats.away_possession}}%</span>
+        </div>
+
+        <div class="stat-row">
+          <span>{{stats.home_shots}}</span>
+          <div class="stat-label">Shots</div>
+          <span>{{stats.away_shots}}</span>
+        </div>
+
+        <div class="stat-row">
+          <span>{{stats.home_shots_on_target}}</span>
+          <div class="stat-label">Shots On Target</div>
+          <span>{{stats.away_shots_on_target}}</span>
+        </div>
+
+        <div class="stat-row">
+          <span>{{stats.home_xg}}</span>
+          <div class="stat-label">xG</div>
+          <span>{{stats.away_xg}}</span>
+        </div>
+
+        <div class="stat-row">
+          <span>{{stats.home_fouls}}</span>
+          <div class="stat-label">Fouls</div>
+          <span>{{stats.away_fouls}}</span>
+        </div>
+
+        <div class="stat-row">
+          <span>🟨 {{stats.home_yellow_cards}}</span>
+          <div class="stat-label">Yellow Cards</div>
+          <span>🟨 {{stats.away_yellow_cards}}</span>
+        </div>
+
+        <div class="stat-row">
+          <span>🟥 {{stats.home_red_cards}}</span>
+          <div class="stat-label">Red Cards</div>
+          <span>🟥 {{stats.away_red_cards}}</span>
+        </div>
+
+        <div class="stat-row">
+          <span>{{stats.home_substitutions}}</span>
+          <div class="stat-label">Substitutions</div>
+          <span>{{stats.away_substitutions}}</span>
+        </div>
+
+        <div class="stat-row">
+          <span>🤕 {{stats.home_injuries}}</span>
+          <div class="stat-label">Injuries</div>
+          <span>🤕 {{stats.away_injuries}}</span>
+        </div>
+
+      </div>
+
+    }
+
+    @if(displayedEvents.length > 0){
+
+      <div class="timeline">
+
+        @for(
+          event of displayedEvents;
+          track $index
+          ){
+
+          <div
+            class="event-card"
+            [class.home]="isHomeEvent(event)"
+            [class.away]="!isHomeEvent(event)">
+
+            <div class="event-minute">
+
+              {{event.minute}}'
+
+            </div>
+
+            <div class="event-icon">
+
+              {{getEventIcon(event.event_type)}}
+
+            </div>
+
+            <div class="event-description">
+
+              {{event.description}}
+
+            </div>
+
+            @if(event.score){
+
+              <div class="event-score">
+
+                {{event.score}}
+
+              </div>
+
+            }
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+    @if(!isKnockout){
+
+      <div class="live-standings">
+
+        <h2>
+
+          📊 Live Group Table
+
+        </h2>
+
+        <table>
+
+          <thead>
+
+          <tr>
+
+            <th>#</th>
+            <th>Team</th>
+            <th>Pts</th>
+            <th>GD</th>
+
+          </tr>
+
+          </thead>
+
+          <tbody>
+
+            @for(
+              team of standings;
+              track team.teamId
+              ){
+
+              <tr>
+
+                <td>
+                  {{$index + 1}}
+                </td>
+
+                <td>
+                  {{team.teamName}}
+                </td>
+
+                <td>
+                  {{team.points}}
+                </td>
+
+                <td>
+                  {{team.goalDifference}}
+                </td>
+
+              </tr>
+
+            }
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+    }
+
+  }
+
+</div>

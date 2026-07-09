@@ -1,0 +1,173 @@
+<div class="champion-page">
+
+  @if(loading){
+
+    <div class="loading-container">
+
+      <div class="loader"></div>
+
+      <h2>
+
+        Loading Champion...
+
+      </h2>
+
+    </div>
+
+  }
+
+  @if(!loading){
+
+    <button
+      class="back-btn"
+      (click)="goBack()">
+
+      ← Back
+
+    </button>
+
+    @if(championTeamId){
+
+      <div class="champion-card">
+
+        <div class="trophy">
+
+          🏆
+
+        </div>
+
+        <div class="champion-label">
+
+          FIFA WORLD CHAMPION
+
+        </div>
+
+        <h1>
+
+          {{
+            getTeamName(
+              championTeamId
+            )
+          }}
+
+        </h1>
+
+        <p>
+
+          Winner Of The Tournament
+
+        </p>
+
+      </div>
+
+      <div class="stats-grid">
+
+        <div class="stat-box">
+
+          <div class="stat-number">
+
+            {{championStats.goals}}
+
+          </div>
+
+          <div class="stat-label">
+
+            Goals
+
+          </div>
+
+        </div>
+
+        <div class="stat-box">
+
+          <div class="stat-number">
+
+            {{championStats.matchesPlayed}}
+
+          </div>
+
+          <div class="stat-label">
+
+            Matches
+
+          </div>
+
+        </div>
+
+        <div class="stat-box">
+
+          <div class="stat-number">
+
+            {{championStats.wins}}
+
+          </div>
+
+          <div class="stat-label">
+
+            Wins
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="road-card">
+
+        <h2>
+
+          🚀 Road To Glory
+
+        </h2>
+
+        @for(
+          match of roadToGlory;
+          track $index
+          ){
+
+          <div class="road-item">
+
+            <div class="phase">
+
+              {{match.phase}}
+
+            </div>
+
+            <div class="opponent">
+
+              vs
+              {{
+                getTeamName(
+                  match.opponent
+                )
+              }}
+
+            </div>
+
+            <div class="goals">
+
+              ⚽ {{match.goals}}
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    } @else {
+
+      <div class="no-champion">
+
+        Tournament Not Finished Yet
+
+      </div>
+
+    }
+
+  }
+
+</div>
+
+

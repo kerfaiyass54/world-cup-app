@@ -1,0 +1,240 @@
+<div class="details-page">
+
+  <div class="background-glow glow-1"></div>
+  <div class="background-glow glow-2"></div>
+
+  <div class="hero-section">
+
+    <div class="hero-top">
+
+      <div class="extra-actions">
+
+        <button
+          class="stats-btn"
+          [routerLink]="[
+      '/',
+      tournament.id,
+      'statistics'
+    ]">
+
+          📊 Tournament Statistics
+
+        </button>
+
+        <button
+          class="champion-btn"
+          [routerLink]="[
+                '/',
+      tournament.id,
+      'champion'
+    ]">
+
+          🏆 Champion Page
+
+        </button>
+
+      </div>
+
+      <button
+        class="back-btn"
+        (click)="goBack()">
+
+        ← Back
+
+      </button>
+
+      <button
+        class="bracket-btn"
+        (click)="viewBracket()">
+
+        🏆 Knockout Bracket
+
+      </button>
+
+    </div>
+
+    <div class="hero-banner">
+
+      <div class="hero-banner-glow"></div>
+
+      <div class="hero-banner-content">
+
+        <h1>
+
+          FIFA World Cup Tournament
+
+        </h1>
+
+        <p>
+
+          Explore Groups • Standings • Matches • Knockout Stage
+
+        </p>
+
+      </div>
+
+      <div class="hero-stats">
+
+        <div class="hero-stat">
+
+          <strong>
+            {{ tournament?.groups?.length || 0 }}
+          </strong>
+
+          <span>
+            Groups
+          </span>
+
+        </div>
+
+        <div class="hero-stat">
+
+          <strong>
+            {{ getTotalTeams() }}
+          </strong>
+
+          <span>
+            Teams
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="carousel-wrapper">
+
+    <button
+      class="nav-btn left"
+      (click)="scrollLeft()">
+
+      ❮
+
+    </button>
+
+    <div
+      class="groups-carousel"
+      #carouselContainer>
+
+      @for(group of tournament?.groups; track group.id){
+
+        <div class="group-card">
+
+          <div class="group-card-glow"></div>
+
+          <div class="group-header">
+
+            <div>
+
+              <h2>
+
+                Group {{ group.name }}
+
+              </h2>
+
+              <span class="group-subtitle">
+
+                {{ group.teamIds.length }}
+                Teams
+
+              </span>
+
+            </div>
+
+            <div class="avg-badge">
+
+              ⭐ {{ getAverageAbility(group) }}
+
+            </div>
+
+          </div>
+
+          <div class="teams-list">
+
+            @for(teamId of group.teamIds; track teamId){
+
+              <div class="team-card">
+
+                <div class="team-left">
+
+                  <img
+                    [src]="getFlag(teamId)"
+                    alt="flag">
+
+                  <div>
+
+                    <div class="team-name">
+
+                      {{ getTeamName(teamId) }}
+
+                    </div>
+
+                    <div
+                      class="continent"
+                      [ngClass]="
+                        getTeam(teamId)
+                          ?.continent
+                          ?.toLowerCase()
+                      ">
+
+                      {{ getTeam(teamId)?.continent }}
+
+                    </div>
+
+                  </div>
+
+                </div>
+
+                <div class="ability">
+
+                  ⭐
+                  {{ getTeam(teamId)?.ability }}
+
+                </div>
+
+              </div>
+
+            }
+
+          </div>
+
+          <div class="group-footer">
+
+            <button
+              class="matches-btn"
+              (click)="openGroup(group.id)">
+
+              ⚽ View Matches
+
+            </button>
+
+            <button
+              class="standings-btn"
+              (click)="viewStandings(group.id)">
+
+              📊 View Standings
+
+            </button>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+    <button
+      class="nav-btn right"
+      (click)="scrollRight()">
+
+      ❯
+
+    </button>
+
+  </div>
+
+</div>
